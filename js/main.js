@@ -59,7 +59,7 @@ dh = sh
 
 // Load the tile atlas, which is saved in a single image file.
 let TileAtlas = new Image(sw*5, sh)
-TileAtlas.src = "tiles.png"
+TileAtlas.src = "img/tiles.png"
 
 
 // Draws the map from a Javascript array object.
