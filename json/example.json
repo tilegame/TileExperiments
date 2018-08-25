@@ -1,4 +1,11 @@
 {
+	"Atlas": 
+	{
+		"ImagePath": "https://fractalbach.github.io/TileExperiments/img/tiles.png",
+		"ImageCols": 5,
+		"TileWidth": 64,
+		"TileHeight": 64,
+	},
 	"Map": 
 	{
 		"Width": 4,
@@ -18,12 +25,5 @@
 				[0,0,0,0]
 			]
 		]
-	},
-	"Atlas": 
-	{
-		"ImagePath": "https://fractalbach.github.io/TileExperiments/img/tiles.png",
-		"ImageCols": 5,
-		"TileWidth": 64,
-		"TileHeight": 64,
-	},
+	}
 }
