@@ -41,6 +41,15 @@ let layer0 = [
 	[1,1,1,1,1,1,1,1,1]
 ]
 
+// load the map data from JSON file. This has to be over HTTPS,  otherwise
+// chrome will get angry because of CORS
+fetch(
+	"https://fractalbach.github.io/TileExperiments/json/example.json"
+).then(
+	response => response.json()
+).then(
+	myJson => console.log(myJson)
+)
 
 // Create reference variables to the game canvas.
 let c = document.querySelector('#GameCanvas')
@@ -75,9 +84,8 @@ function ArrayToTiles() {
 	}
 }
 
-// Uses a string to convert the javascript array object
-// NOTE: treats all 0 as empty squares.
-// Subtracts 1 from all other numbers.  So the first square
+// Uses a string to convert the javascript array object NOTE: treats all 0 as
+// empty squares. Subtracts 1 from all other numbers.  So the first square
 // that will be taken from a picture will be "1".
 function StringToTiles(StringData) {
 	// removes all empty spaces, lines, etc from the string.
