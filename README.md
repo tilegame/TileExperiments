@@ -23,7 +23,6 @@ Field Definitions
 | Data       | array of layers, which each contain a matrix of data.
 
 
-
 ### Atlas Field Definitions
 
 The Atlas field contains information about the image file that is used by the logical map.  It gives meaning the numbers in the Data field.  The "Atlas image" can also be referred to as the "source image".
@@ -35,6 +34,24 @@ The Atlas field contains information about the image file that is used by the lo
 | ImageCols  | number of columns of tiles in the source image.
 | TileWidth  | image width of each tile in pixels.
 | TileHeight | image height of each tile in pixels.
+
+
+
+
+
+
+
+Notes
+-----------
+
+### Notes about Data Field
+
+If the data field were written using `array[index]` notation, then it would look like: `data[layer][row][column]`.  Note that this implies `data[layer][y][x]`, which will probably cause confusion at some point, but makes much more sense than the alternative looking at the map data.
+
+Each Layer is an array of "Rows": each "Row" is an array of numbers.  Each number corresponds to the type of Tile.  0 always means empty.  The order of the layers in the json is the order that they will be drawn onto the Canvas.  Each layer will be drawn on top of the previous layer.
+
+
+### Note about ImageCols
 
 The `ImageCols` (image columns) field is used to convert the MapData numbers into their corresponding image in the Atlas.  For example, if `ImageCols = 3`, then MapData number `4` would reference the 1st column of the 2nd row in the source image. 
 
@@ -77,11 +94,7 @@ function DataNumberToLocation(DataNum, ImageCols) {
 ~~~
 
  
-### Notes about Data Field
 
-If the data field were written using `array[index]` notation, then it would look like: `data[layer][row][column]`.  Note that this implies `data[layer][y][x]`, which will probably cause confusion at some point, but makes much more sense than the alternative looking at the map data.
-
-Each Layer is an array of "Rows": each "Row" is an array of numbers.  Each number corresponds to the type of Tile.  0 always means empty.  The order of the layers in the json is the order that they will be drawn onto the Canvas.  Each layer will be drawn on top of the previous layer.
 
 
 
