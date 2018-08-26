@@ -1,19 +1,39 @@
-// Define the location of the json file containing the map.
-let mapURL = "https://fractalbach.github.io/TileExperiments/json/example.json"
-let mapURL2 = "https://fractalbach.github.io/TileExperiments/tools/ex.json"
+// ================================================
+// Initialize Canvas
+// ------------------------------------------------
 
 // Canvas is basically the Visual Map.
+let VisualMap = {}
 let c = document.querySelector('#GameCanvas')
 let ctx = c.getContext('2d')
-let VisualMap = {
-	"w": 300,
-	"h": 300
+
+// Set canvas size to the window size.
+{
+	// Force the canvas width & height into a square,
+	// by setting side to min(w, h) 
+	let s = Math.min(window.innerWidth, window.innerHeight)
+	c.width = s
+	c.height = s
+	VisualMap = {
+		"w": s,
+		"h": s
+	}
 }
 
-// Atlas is the source image for tile data,
-// LogicalMap contains actual data.
+// ================================================
+// Downloading Map Data
+// ------------------------------------------------
+
+// Atlas: the source image for the visual tiles
+// LogicalMap: contains data for types of tile.
 let Atlas = {}
 let LogicalMap = {}
+
+// Define the location of the json file containing the map.
+let prefixURL = "https://fractalbach.github.io/TileExperiments/"
+let mapURL = prefixURL + "json/example.json"
+let mapURL2 = prefixURL + "tools/ex.json"
+
 
 fetch(
 	mapURL2
@@ -33,8 +53,10 @@ function handleJson(myJson) {
 	BuildMap()
 }
 
-// About the variables used:
-//
+
+// ================================================
+// Build Map Sequence
+// ------------------------------------------------
 // Source: s
 // Destination: d
 // Position: x | y 
@@ -44,8 +66,9 @@ function BuildMap() {
 	let sx, sy, sw, sh, dx, dy, dw, dh, val
 	sw = Atlas.TileWidth
 	sh = Atlas.TileHeight
-	dw = 64
-	dh = 64
+	dw = ~~(VisualMap.w / 20)	
+	dh = ~~(VisualMap.h / 20)
+	console.log(dw, dh)
 
 	// Load the tile atlas, which is saved in a single image file.
 	let TileAtlas = new Image()
@@ -63,7 +86,6 @@ function BuildMap() {
 				dy = i * dh
 				sx = ((val-1) % Atlas.ImageCols) * sw
 				sy = div(val-1, Atlas.ImageCols) * sh
-				console.log(`(${i}, ${j}) v:${val}, x,y = (${sx}, ${sy})`)
 				ctx.drawImage(TileAtlas,sx,sy,sw,sh,dx,dy,dw,dh)
 			}
 		}
@@ -72,16 +94,18 @@ function BuildMap() {
 	TileAtlas.onload = ()=> {
 		nLayers = LogicalMap.Data.length
 		for (var i = 0; i < nLayers; i++) {
-			ArrayToTiles(LogicalMap.Data[i]);
+			ArrayToTiles(LogicalMap.Data[i])
 			console.log(`layer ${i} drawn.`)
 		}
 	}
 
 }
 
-// function LocToInt(i, j, cols) {
-// 	return i * (LogicalMap.w) + j
-// }
+
+// ================================================
+// Helper Functions
+// ------------------------------------------------
+
 
 // NOTE: only correct for positive numbers.
 function div(a, b) {
@@ -89,16 +113,3 @@ function div(a, b) {
 
 }
 
-function NumToLoc(n, cols) {
-	return {
-		"x": ~~((n-1) / cols),
-		"y": (n-1) % cols
-	}
-}
-
-
-// =================================
-
-//StringToTiles()
-
-// =================================
