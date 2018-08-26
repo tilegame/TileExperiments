@@ -19,6 +19,8 @@ fetch(
 	"https://fractalbach.github.io/TileExperiments/json/example.json"
 ).then(
 	response => response.json()
+).catch(
+	error => console.error('Fetch Error:', error)
 ).then(
 	myJson => handleJson(myJson)
 )
