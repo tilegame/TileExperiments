@@ -85,25 +85,6 @@ function BuildMap() {
 	TileAtlas.addEventListener('load', drawAll, false)
 
 
-	// ----------------------------------
-	// Enable Canvas Resize
-	// ----------------------------------
-	// TODO: make this smoother by using RequestAnimationFrame.
-	//
-	let ResizeTimer
-	function handleResize() {
-		clearTimeout(ResizeTimer)
-		ResizeTimer = setTimeout(maximizeCanvas, 500)
-	}
-	function maximizeCanvas() {
-		c.width = window.innerWidth
-		c.height = window.innerHeight
-		console.log(`New Dimensions (${c.width}, ${c.height})`)
-		drawAll()
-	}
-	window.addEventListener('resize', handleResize, false)
-	maximizeCanvas()
-
 }
 
 
