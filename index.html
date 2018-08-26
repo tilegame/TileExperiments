@@ -4,21 +4,23 @@
 	<title>Tilemap Test</title>
 </head>
 
+
 <body>
-<div id="ScreenPort">
-<div id="CanvasWrap">
-<canvas id="GameCanvas" width="1000" height="1000"></canvas>
-</div>
-</div>
+	<div id="ScreenPort">
+		<canvas id="GameCanvas" width="1000" height="1000"></canvas>
+	</div>
 </body>
 
+
 <style>
+html, body {
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
 #GameCanvas {
 	background: #eee;
-}
-#CanvasWrap {
-	margin: 0 auto;
-	/*max-width: 1000px;*/
 }
 #ScreenPort {
 	background: #000;
@@ -27,7 +29,7 @@
 	bottom: 0;
 	left: 0;
 	right: 0;
-	overflow: none;
+	overflow: hidden;
 }
 </style>
 

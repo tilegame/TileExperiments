@@ -1,24 +1,9 @@
 // ================================================
-// Initialize Canvas
+// Init Canvas
 // ------------------------------------------------
 
-// Canvas is basically the Visual Map.
-let VisualMap = {}
 let c = document.querySelector('#GameCanvas')
 let ctx = c.getContext('2d')
-
-// Set canvas size to the window size.
-{
-	// Force the canvas width & height into a square,
-	// by setting side to min(w, h) 
-	let s = Math.min(window.innerWidth, window.innerHeight)
-	c.width = s
-	c.height = s
-	VisualMap = {
-		"w": s,
-		"h": s
-	}
-}
 
 // ================================================
 // Downloading Map Data
@@ -66,8 +51,8 @@ function BuildMap() {
 	let sx, sy, sw, sh, dx, dy, dw, dh, val
 	sw = Atlas.TileWidth
 	sh = Atlas.TileHeight
-	dw = ~~(VisualMap.w / 20)	
-	dh = ~~(VisualMap.h / 20)
+	dw = 64
+	dh = 64
 	console.log(dw, dh)
 
 	// Load the tile atlas, which is saved in a single image file.
@@ -90,14 +75,34 @@ function BuildMap() {
 			}
 		}
 	}
-
-	TileAtlas.onload = ()=> {
+	function drawAll() {
 		nLayers = LogicalMap.Data.length
 		for (var i = 0; i < nLayers; i++) {
 			ArrayToTiles(LogicalMap.Data[i])
 			console.log(`layer ${i} drawn.`)
 		}
 	}
+	TileAtlas.addEventListener('load', drawAll, false)
+
+
+	// ----------------------------------
+	// Enable Canvas Resize
+	// ----------------------------------
+	// TODO: make this smoother by using RequestAnimationFrame.
+	//
+	let ResizeTimer
+	function handleResize() {
+		clearTimeout(ResizeTimer)
+		ResizeTimer = setTimeout(maximizeCanvas, 500)
+	}
+	function maximizeCanvas() {
+		c.width = window.innerWidth
+		c.height = window.innerHeight
+		console.log(`New Dimensions (${c.width}, ${c.height})`)
+		drawAll()
+	}
+	window.addEventListener('resize', handleResize, false)
+	maximizeCanvas()
 
 }
 
@@ -106,10 +111,8 @@ function BuildMap() {
 // Helper Functions
 // ------------------------------------------------
 
-
-// NOTE: only correct for positive numbers.
+// NOTE: This method is only correct for positive numbers.
 function div(a, b) {
 	return ~~((a-1) / b)
-
 }
 
