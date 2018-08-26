@@ -29,9 +29,16 @@ for i in range(1, s-1):
 # ==========  JSON output  ============
 
 j = {
-	"Width": s,
-	"Height": s,
-	"Layers": 1,
-	"Data": [m]
+	"Atlas": {
+		"ImagePath": "https://fractalbach.github.io/TileExperiments/img/tiles.png",
+		"ImageCols": 5,
+		"TileWidth": 64,
+		"TileHeight": 64
+	},
+	"Map": {
+		"Width": s,
+		"Height": s,
+		"Data": [m]
+	}
 }
 print(json.dumps(j, separators=(',', ':'), sort_keys=True))

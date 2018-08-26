@@ -1,3 +1,6 @@
+// Define the location of the json file containing the map.
+let mapURL = "https://fractalbach.github.io/TileExperiments/json/example.json"
+let mapURL2 = "https://fractalbach.github.io/TileExperiments/tools/ex.json"
 
 // Canvas is basically the Visual Map.
 let c = document.querySelector('#GameCanvas')
@@ -13,7 +16,7 @@ let Atlas = {}
 let LogicalMap = {}
 
 fetch(
-	"https://fractalbach.github.io/TileExperiments/json/example.json"
+	mapURL2
 ).then(
 	response => response.json()
 ).catch(
@@ -56,8 +59,8 @@ function BuildMap() {
 				if (val <= 0) {
 					continue
 				}
-				dx = i * dw
-				dy = j * dh
+				dx = j * dw
+				dy = i * dh
 				sx = ((val-1) % Atlas.ImageCols) * sw
 				sy = div(val-1, Atlas.ImageCols) * sh
 				console.log(`(${i}, ${j}) v:${val}, x,y = (${sx}, ${sy})`)
