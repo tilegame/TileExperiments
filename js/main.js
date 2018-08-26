@@ -1,20 +1,17 @@
-// Define the dimensions of the Visual map in terms of pixels.
+
+// Canvas is basically the Visual Map.
+let c = document.querySelector('#GameCanvas')
+let ctx = c.getContext('2d')
 let VisualMap = {
 	"w": 300,
 	"h": 300
 }
 
-// Define the logical map in terms of NUMBER OF TILES.
-let LogicalMap = {
-	"w": 9,
-	"h": 9
-}
-let AtlasData = {}
-let MapData = {}
+// Atlas is the source image for tile data,
+// LogicalMap contains actual data.
+let Atlas = {}
+let LogicalMap = {}
 
-
-// load the map data from JSON file. This has to be over HTTPS,  otherwise
-// chrome will get angry because of CORS
 fetch(
 	"https://fractalbach.github.io/TileExperiments/json/example.json"
 ).then(
@@ -27,46 +24,66 @@ fetch(
 
 // handleJson basically just saves the json data into memory.
 function handleJson(myJson) {
-	MapData = myJson.Map
-	AtlasData = myJson.Atlas
-	console.log(myJson)
+	Atlas = myJson.Atlas
+	LogicalMap = myJson.Map
+	console.log("Fetched Map:", myJson)
+	BuildMap()
 }
 
-// Create reference variables to the game canvas.
-let c = document.querySelector('#GameCanvas')
-let ctx = c.getContext('2d')
-
+// About the variables used:
+//
 // Source: s
 // Destination: d
 // Position: x | y 
 // Width: w
 // Height: h
-let sx, sy, sw, sh, dx, dy, dw, dh
-sw = 64
-sh = 64
-dw = sw 
-dh = sh
+function BuildMap() {
+	let sx, sy, sw, sh, dx, dy, dw, dh, val
+	sw = Atlas.TileWidth
+	sh = Atlas.TileHeight
+	dw = 64
+	dh = 64
 
-// Load the tile atlas, which is saved in a single image file.
-let TileAtlas = new Image(sw*5, sh)
-TileAtlas.src = "img/tiles.png"
+	// Load the tile atlas, which is saved in a single image file.
+	let TileAtlas = new Image()
+	TileAtlas.src = Atlas.ImagePath
 
-
-// Draws the map from a Javascript array object.
-function ArrayToTiles() {
-	sy = 0
-	for (let i=0; i<layer0.length; i++) {
-		for (let j=0; j<layer0[i].length; j++) {
-			dx = i * dw
-			dy = j * dh
-			sx = layer0[i][j] * sw
-			ctx.drawImage(TileAtlas,sx,sy,sw,sh,dx,dy,dw,dh)
+	// Draws the map from a Javascript array object.
+	function ArrayToTiles(matrix) {
+		for (let i = 0; i < matrix.length; i++) {
+			for (let j = 0; j < matrix[i].length; j++) {
+				val = matrix[i][j]
+				if (val <= 0) {
+					continue
+				}
+				dx = i * dw
+				dy = j * dh
+				sx = ((val-1) % Atlas.ImageCols) * sw
+				sy = div(val-1, Atlas.ImageCols) * sh
+				console.log(`(${i}, ${j}) v:${val}, x,y = (${sx}, ${sy})`)
+				ctx.drawImage(TileAtlas,sx,sy,sw,sh,dx,dy,dw,dh)
+			}
 		}
 	}
+
+	TileAtlas.onload = ()=> {
+		nLayers = LogicalMap.Data.length
+		for (var i = 0; i < nLayers; i++) {
+			ArrayToTiles(LogicalMap.Data[i]);
+			console.log(`layer ${i} drawn.`)
+		}
+	}
+
 }
 
-function LocToInt(i, j) {
-	return i * (LogicalMap.w) + j
+// function LocToInt(i, j, cols) {
+// 	return i * (LogicalMap.w) + j
+// }
+
+// NOTE: only correct for positive numbers.
+function div(a, b) {
+	return ~~((a-1) / b)
+
 }
 
 function NumToLoc(n, cols) {
@@ -79,9 +96,6 @@ function NumToLoc(n, cols) {
 
 // =================================
 
-TileAtlas.onload = ()=> {
-	StringToTiles(layerString);
-}
 //StringToTiles()
 
 // =================================
