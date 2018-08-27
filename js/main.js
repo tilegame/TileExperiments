@@ -15,7 +15,7 @@ game.ctx = game.canvas.getContext('2d')
 // Atlas: the source image for the visual tiles
 game.Atlas = {}
 
-// LogicalMap: contains data for types of tile.
+// LogicalMap: contains data for types of tile. 
 game.LogicalMap = {}
 
 
