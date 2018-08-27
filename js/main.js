@@ -2,8 +2,9 @@
 // Init Canvas
 // ------------------------------------------------
 
-let c = document.querySelector('#GameCanvas')
-let ctx = c.getContext('2d')
+let GameCanvas = document.querySelector('#GameCanvas')
+let ctx = GameCanvas.getContext('2d')
+let TILE_SIZE = 64
 
 // ================================================
 // Downloading Map Data
@@ -51,8 +52,8 @@ function BuildMap() {
 	let sx, sy, sw, sh, dx, dy, dw, dh, val
 	sw = Atlas.TileWidth
 	sh = Atlas.TileHeight
-	dw = 64
-	dh = 64
+	dw = TILE_SIZE
+	dh = TILE_SIZE
 
 	// Load the tile atlas, which is saved in a single image file.
 	let TileAtlas = new Image()
@@ -80,9 +81,10 @@ function BuildMap() {
 			ArrayToTiles(LogicalMap.Data[i])
 			console.log(`layer ${i} drawn.`)
 		}
+		DebugTools.OutlineMiddleTile(GameCanvas, TILE_SIZE)
 	}
-	TileAtlas.addEventListener('load', drawAll, false)
 
+	TileAtlas.addEventListener('load', drawAll, false)
 
 }
 
