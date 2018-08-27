@@ -34,7 +34,7 @@ for i in range(1, s-1):
 		# 10% chance for a tree.
 		if random.randint(0, 10) == 10:
 			m[i][j] = TREE
-			m2[i][j-1] = TREETOP
+			m2[i-1][j] = TREETOP
 			continue
 
 		# For the non-tree grassy spots, theres a 10% chance for a bush.
