@@ -52,7 +52,7 @@ Example
 		"TileHeight": 64,
 	},
 }
-
+~~~
 
 
 
@@ -125,30 +125,20 @@ n	y	x
 
 Python code:
 ~~~python
-x, y = divmod(DataNum-1, ImageCols)
+y, x = divmod(DataNum-1, ImageCols)
 ~~~
 
 Javascript code for the conversion (assumes positive numbers):
 ~~~js
 function DataNumberToLocation(DataNum, ImageCols) {
 	return {
-		"x": ~~((DataNum-1) / ImageCols)
-		"y": (DataNum-1) % ImageCols
+		"y": ~~((DataNum-1) / ImageCols)
+		"x": (DataNum-1) % ImageCols
 	}
 }
 ~~~
 
- 
-
-
-
-
-
-~~~
-
 See [json/example.json](https://fractalbach.github.io/TileExperiments/json/example.json) for a current working json example.
-
-
 
 
 
