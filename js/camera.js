@@ -1,4 +1,3 @@
-
 // ================================================
 // Camera
 // ------------------------------------------------
@@ -9,14 +8,26 @@
 
 class Camera {
 	constructor() {
-		this.x
-		this.y
-		this.width
-		this.height
-		this.maxX
-		this.maxY
+		this.x = 10
+		this.y = 10
+		this.width = game.canvas.width
+		this.height = game.canvas.height
+		this.maxX = game.LogicalMap.Width * game.TILE_SIZE
+		this.maxY = game.LogicalMap.Height * game.TILE_SIZE
+	}
+	
+	//function* makeTileIterator(start = 0, end = )
+
+}
+
+class TileIterator {
+	constructor(matrix) {
+		this.x = 0
+		this.y = 0
+		this.matrix = matrix
 	}
 }
+
 
 console.log("camera.js loaded")
 
