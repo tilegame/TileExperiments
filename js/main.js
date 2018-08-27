@@ -5,10 +5,12 @@ var game = {}
 
 // Magic Variables
 game.TILE_SIZE = 64
+game.MAP_JSON_1 = window.location.href + "json/example.json"
+game.MAP_JSON_2 = window.location.href + "tools/ex.json"
 
 // Include References to Canvas and Drawing Context
-game.Canvas = document.querySelector('#GameCanvas')
-game.ctx = game.Canvas.getContext('2d')
+game.canvas = document.querySelector('#GameCanvas')
+game.ctx = game.canvas.getContext('2d')
 
 // Atlas: the source image for the visual tiles
 game.Atlas = {}
@@ -39,16 +41,10 @@ game.handleJson = (myJson) => {
 	game.Atlas.img.addEventListener('load', game.DrawMap, false)
 }
 
-game.FetchMap = function() {
-
-	// Define the location of the json file containing the map.
-	let prefix = window.location.href
-	let example1 = prefix + "json/example.json"
-	let example2 = prefix + "tools/ex.json"
-	console.log(`Fetching map from: ${example2}`)
-
+game.FetchMap = (map_url) => {
+	console.log(`Fetching map from: ${map_url}`)
 	fetch(
-		example2
+		map_url
 	).then(
 		response => response.json()
 	).then(
@@ -90,14 +86,14 @@ game.DrawLayer = function(matrix) {
 	}
 }
 
-
 game.DrawMap = function() {
+	game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height)
 	let nLayers = game.LogicalMap.Data.length
 	for (let i = 0; i < nLayers; i++) {
 		game.DrawLayer(game.LogicalMap.Data[i])
 		console.log(`layer ${i} drawn.`)
 	}
-	DebugTools.OutlineMiddleTile(game.Canvas, game.TILE_SIZE)
+	DebugTools.OutlineMiddleTile(game.canvas, game.TILE_SIZE)
 }
 
 
@@ -117,7 +113,7 @@ function div(a, b) {
 // Main
 // ------------------------------------------------
 function main(event) {
-	game.FetchMap()
+	game.FetchMap(game.MAP_JSON_2)
 }
 window.addEventListener("load", main);
 console.log("main.js loaded");
