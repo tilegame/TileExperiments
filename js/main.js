@@ -53,7 +53,6 @@ function BuildMap() {
 	sh = Atlas.TileHeight
 	dw = 64
 	dh = 64
-	console.log(dw, dh)
 
 	// Load the tile atlas, which is saved in a single image file.
 	let TileAtlas = new Image()
