@@ -4,22 +4,67 @@ Tile Experiment
 A simple javascript experiment with both static and scrolling tiles.
 
 
+
+The Game Object
+=====================
+
+Everything is accessible through the `game` object, which you mess around with from the Web Console in your browser.
+
+
+
+
 Json Tile maps
 =====================
+
+The Game Maps are stored in JSON format, for simplicity.  The default map is fetched when the page is loaded, but they can be loaded interactively through the Browser Console with `game.FetchMap(URL)`, where `URL` is the location of the .json file.
+
+
+Example
+---------------
+
+~~~json
+{
+	"Map": 
+	{
+		"Width": 4,
+		"Height": 4,
+		"Data":
+		[
+			[
+				[1,2,3,4],
+				[1,2,3,4],
+				[1,2,3,4],
+				[1,2,3,4]
+			],
+			[
+				[0,0,0,5],
+				[0,0,0,5],
+				[0,0,0,5],
+				[0,0,0,5]
+			]
+		]
+	},
+	"Atlas": 
+	{
+		"ImagePath": "https://example.com/tiles.png",
+		"ImageCols": 5,
+		"TileWidth": 64,
+		"TileHeight": 64,
+	},
+}
+
+
 
 
 Field Definitions
 ----------------------
 
-### Top-Level Definitions
+### Map Definitions
 
 | field      | definitions
 | -----------|-----------------
-| ImagePath  | URL to the image used to reference the tiles
-| TileWidth  | image width of each tile in pixels.
-| TileHeight | image height of each tile in pixels.
-| MapWidth   | number of tiles in x direction.
-| MapHeight  | number of tiles in y direction.
+| Width      | number of tiles in x direction.
+| Height     | number of tiles in y direction.
 | Data       | array of layers, which each contain a matrix of data.
 
 
@@ -99,39 +144,6 @@ function DataNumberToLocation(DataNum, ImageCols) {
 
 
 
-Example
----------------
-
-~~~json
-{
-	"Map": 
-	{
-		"Width": 4,
-		"Height": 4,
-		"Data":
-		[
-			[
-				[1,2,3,4],
-				[1,2,3,4],
-				[1,2,3,4],
-				[1,2,3,4]
-			],
-			[
-				[0,0,0,5],
-				[0,0,0,5],
-				[0,0,0,5],
-				[0,0,0,5]
-			]
-		]
-	},
-	"Atlas": 
-	{
-		"ImagePath": "https://example.com/tiles.png",
-		"ImageCols": 5,
-		"TileWidth": 64,
-		"TileHeight": 64,
-	},
-}
 ~~~
 
 See [json/example.json](https://fractalbach.github.io/TileExperiments/json/example.json) for a current working json example.
