@@ -5,11 +5,6 @@
 
 class Player {
 	constructor(x, y) {
-		this.position = {x, y}
+		this.position = new TileLocation(x,y)
 	}
 }
-
-
-
-
-console.log("player.js loaded")
