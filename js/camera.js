@@ -21,6 +21,7 @@ class Camera {
         // will be the the side length of a square.
         this.VIEW_RADIUS = 10
 
+
         // Rectangle Bounds.
         // Values used frequently by the generators, these should be 
         // updated whenever the camera position changes.
@@ -46,6 +47,12 @@ class Camera {
         }
     }
 
-    
+    // Scrolls such that the absolute center tile is displayed in the center 
+    // of the screen.
+    center() {
+        let x = game.BLOCK_SIZE*3/2 - window.innerWidth/2
+        let y = game.BLOCK_SIZE*3/2 - window.innerHeight/2
+        window.scrollTo(x,y)
+    }
 
 }

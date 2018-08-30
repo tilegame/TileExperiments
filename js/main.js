@@ -10,6 +10,7 @@ game.status = {
 
 // Magic Variables
 game.TILE_SIZE = 64
+game.BLOCK_SIZE = 960
 game.MAP_JSON_1 = window.location.href + "json/example.json"
 game.MAP_JSON_2 = window.location.href + "tools/ex.json"
 
