@@ -6,49 +6,29 @@
         <title>Tilemap Test</title>
     </head>
     <body>
-        <div id="super">
-            <div id="ScreenPort">
-                <canvas id="GameCanvas" width="960" height="960"></canvas>
-            </div>
-        </div>
+        <canvas id="GameCanvas" width="960" height="960"></canvas>
     </body>
     <style>
+    
         body {
             background: #000;
-            position: fixed;
-            margin: 1%;
+            position: absolute;
+            margin: 0;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-        }
-
-        #super {
-            background: #eef;
-            position: relative;
-            display: block;
-            height: 100%;
-            overflow: hidden;
-            border: double blue;
-            overflow: scroll;
+            overflow: auto;
+            display: grid;
         }
 
         #GameCanvas {
             background: #eee;
             margin: auto;
             display: block;
+        
         }
 
-        #ScreenPort {
-            background: #fee;
-            width: 2000px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: solid red;
-            display: block;
-        }
     </style>
     <script src="js/tiles.js"></script>
     <script src="js/player.js"></script>
