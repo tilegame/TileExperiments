@@ -6,10 +6,33 @@
         <title>Tilemap Test</title>
     </head>
     <body>
-        <canvas id="GameCanvas" width="960" height="960"></canvas>
+        <div id="viewbox">
+            <div id="canvasWindow" class="wrap">
+                <canvas class="one" width="960" height="960"></canvas>
+                <canvas class="two" width="960" height="960"></canvas>
+                <canvas class="three" width="960" height="960"></canvas>
+                <canvas class="four" width="960" height="960"></canvas>
+                <canvas class="five" id="GameCanvas" width="960" height="960"></canvas>
+                <canvas class="six" width="960" height="960"></canvas>
+                <canvas class="seven" width="960" height="960"></canvas>
+                <canvas class="eight" width="960" height="960"></canvas>
+                <canvas class="nine" width="960" height="960"></canvas>
+            </div>
+        </div>
+        <canvas id="MainCharacter" width="64" height="64"></canvas>
     </body>
     <style>
-    
+        canvas {
+            border: solid green 1px;
+            background: #efe;
+        }
+
+        /* 
+        body {
+            overflow: hidden;
+        }
+         */
+        /*         
         body {
             background: #000;
             position: absolute;
@@ -19,20 +42,38 @@
             right: 0;
             bottom: 0;
             overflow: auto;
-            display: grid;
         }
-
+ */
         #GameCanvas {
             background: #eee;
             margin: auto;
+            /* 
             display: block;
-        
+             */
+        }
+
+        .wrap {
+            margin: auto;
+            border: solid #eee;
+            background: #555;
+            display: grid;
+            grid-template-rows: repeat(3, 960px);
+            grid-template-columns: repeat(3, 960px);
+        }
+
+        #MainCharacter {
+            background: red;
+            border: double red;
+            position: fixed;
         }
 
     </style>
+    <!-- Class Definitions -->
     <script src="js/tiles.js"></script>
     <script src="js/player.js"></script>
     <script src="js/camera.js"></script>
-    <script src="js/main.js"></script>
+    <!-- Extras -->
     <script src="js/DebugTools.js"></script>
+    <!-- Main Sequences -->
+    <script src="js/main.js"></script>
 </html>
