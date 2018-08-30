@@ -1,7 +1,7 @@
 import json
 import random
 
-s = 20
+s = 100
 m = [[0]*s for _ in range(s)]
 m2 = [[0]*s for _ in range(s)]
 l = []
