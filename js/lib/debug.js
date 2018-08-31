@@ -2,7 +2,9 @@
 // Canvas Debugging Tools
 // ------------------------------------------------
 
-const DebugTools = {
+game.debug = {
+
+    init() {},
 
     // Draws an outine around the tile that is closest to the middle.  The
     // location of the middle of each tile is used in the calculation.  Works

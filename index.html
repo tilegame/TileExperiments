@@ -27,29 +27,13 @@
             background: #efe;
         }
 
-        /* 
         body {
-            overflow: hidden;
-        }
-         */
-        /*         
-        body {
-            background: #000;
-            position: absolute;
             margin: 0;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: auto;
         }
- */
+
         #GameCanvas {
             background: #eee;
             margin: auto;
-            /* 
-            display: block;
-             */
         }
 
         .wrap {
@@ -66,14 +50,18 @@
             border: double red;
             position: fixed;
         }
-
     </style>
-    <!-- Class Definitions -->
-    <script src="js/tiles.js"></script>
-    <script src="js/player.js"></script>
-    <script src="js/camera.js"></script>
-    <!-- Extras -->
-    <script src="js/DebugTools.js"></script>
-    <!-- Main Sequences -->
+    <!-- 
+    1. game object is set up by init.js
+    2. libraries are loaded into the game object.
+    3. main.js starts everything.
+    -->
+    <script src="js/init.js"></script>
+    <script src="js/lib/drawer.js"></script>
+    <script src="js/lib/tiles.js"></script>
+    <script src="js/lib/player.js"></script>
+    <script src="js/lib/camera.js"></script>
+    <script src="js/lib/debug.js"></script>
+    <script src="js/lib/fetcher.js"></script>
     <script src="js/main.js"></script>
 </html>
