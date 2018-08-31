@@ -46,11 +46,6 @@ game.fetcher = {
         // Fetch and Load the image for the atlas.
         this.FetchAtlasImage(game.Atlas.ImagePath)
 
-        // Call the "main" function if this is the first fetch.
-        if (this.FIRST_DONE !== true) {
-            this.FIRST_DONE = true
-            game.main()
-        }
     },
 
     FetchAtlasImage(path) {
@@ -59,11 +54,20 @@ game.fetcher = {
         game.Atlas.img.src = game.Atlas.ImagePath
 
         // Once the image has been fetched and loaded, drawAll will be called.
-        game.Atlas.img.addEventListener('load', ()=>{
-            console.log(`Image Fetch Done:`, game.Atlas.img)
-            game.DrawMap()
-        }
-        , false)
+        game.Atlas.img.addEventListener('load', this.TriggerDraw, false)
 
-    }
+    },
+
+    TriggerDraw() {
+        // If this is not the initial fetch, just draw the map.
+        if (this.FIRST_DONE === true) {
+            game.drawer.DrawMap()
+            return
+        }
+        // Call the "main" function if this is the first fetch.
+        this.FIRST_DONE = true
+        console.log(`Image Fetch Done:`, game.Atlas.img)
+        game.main()
+    },
+
 }
