@@ -22,7 +22,7 @@
                 <canvas class="nine" width="960" height="960"></canvas>
             </div>
         </div>
-        <canvas id="MainCharacter" width="64" height="64"></canvas>
+        <canvas id="MainCharacter" class="player" width="64" height="64"></canvas>
     </body>
     <style>
         canvas {
@@ -47,11 +47,15 @@
             grid-template-rows: repeat(3, 960px);
             grid-template-columns: repeat(3, 960px);
         }
+        .player {
+            background: rgba(255,0,0,0.1);
+            border: double rgba(255,0,0,0.9);
+            position: absolute;           
+        }
 
         #MainCharacter {
-            background: red;
-            border: double red;
-            position: fixed;
+            top: 64px;
+            left: 64px;
         }
     </style>
     <!-- 
