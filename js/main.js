@@ -28,17 +28,23 @@ game.main = (event)=>{
     
     for (lib of LibList) {
         game[lib].init()
-        console.log(`${lib} initialized:`, game[lib])
+        console.log(`$ game.${lib}`, game[lib])
     }
 
     game.drawer.DrawMap()
-    console.log("main done.")
-    console.log("game", game)
+    console.log("$ game", game)
 }
 
 // Start the Fetcher When the Page has loaded.
 // The fetcher will call game.main() when the maps have 
 // been fetched, and the images have been loaded.
 window.addEventListener("load", ()=>{
+    console.log("window loaded")
     game.fetcher.FetchMap(game.fetcher.DEFAULT)
 });
+
+
+// This should be the last .js file to be listed in the html,
+// which means it should be the last one to load.
+// Check that all definitions have been loaded:
+console.log("$ game.classes", game.classes)

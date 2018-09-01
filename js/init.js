@@ -15,6 +15,9 @@ var game = {
     // Magic Variables
     TILE_SIZE: 64,
     BLOCK_SIZE: 960,
+
+    // Holds class definitions
+    classes: {},
 }
 
-console.log("init done.")
+console.log("init done")

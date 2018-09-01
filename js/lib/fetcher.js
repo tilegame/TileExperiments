@@ -43,6 +43,9 @@ game.fetcher = {
         game.Atlas = myJson.Atlas
         game.LogicalMap = myJson.Map
 
+        // Prepare the TileMatrix
+        this.MakeMapIntoTileMatrix()
+
         // Fetch and Load the image for the atlas.
         this.FetchAtlasImage(game.Atlas.ImagePath)
 
@@ -68,6 +71,40 @@ game.fetcher = {
         this.FIRST_DONE = true
         console.log(`Image Fetch Done:`, game.Atlas.img)
         game.main()
+    },
+
+    MakeMapIntoTileMatrix() {
+
+        // Create a matrix of Tiles, based on the LogicalMap of values.
+        // Basically, converts the values into Tile objects that can be used later.
+        let h = game.LogicalMap.Height
+        let w = game.LogicalMap.Width
+
+        // Create an empty (w x h) matrix.
+        let matrix = new Array(h)
+        for (let i of matrix.keys()) {
+            matrix[i] = new Array(w)
+        }
+
+        for (let row = 0; row < h; row++) {
+            for (let col = 0; col < w; col++) {
+
+                // Create the Tile.
+                let t = new game.classes.Tile(col,row)
+
+                // Assign layer information
+                // TODO!!
+                // Change the JSON format, then change this!
+                t.layers['ground'] = game.LogicalMap.Data[0][row][col]
+                t.layers['above'] = game.LogicalMap.Data[1][row][col]
+
+                // Save the tile into the TileMatrix.
+                matrix[row][col] = t
+
+            }
+        }
+        // Save the filled matrix into an accessible location.
+        game.TileMatrix = matrix
     },
 
 }
