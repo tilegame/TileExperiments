@@ -52,12 +52,16 @@ game.fetcher = {
     },
 
     FetchAtlasImage(path) {
-        console.log(`Fetching image from: ${path}`)
-        game.Atlas.img = new Image()
-        game.Atlas.img.src = game.Atlas.ImagePath
 
-        // Once the image has been fetched and loaded, drawAll will be called.
-        game.Atlas.img.addEventListener('load', this.TriggerDraw, false)
+        // TODO: make json into relative paths.
+        path = window.location + "img/tiles.png"
+        
+        console.log(`Fetching image from: ${path}`)
+
+        // Once the image has been fetched and loaded, the map can be drawn.
+        game.AtlasImage = new Image()
+        game.AtlasImage.src = "img/tiles.png"
+        game.AtlasImage.addEventListener('load', this.TriggerDraw, false)
 
     },
 
@@ -69,7 +73,7 @@ game.fetcher = {
         }
         // Call the "main" function if this is the first fetch.
         this.FIRST_DONE = true
-        console.log(`Image Fetch Done:`, game.Atlas.img)
+        console.log(`Image Fetch Done:`, game.AtlasImage)
         game.main()
     },
 

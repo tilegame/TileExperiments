@@ -30,7 +30,7 @@
                 return
             }
             let s = this.getAtlasLocation(layer)
-            ctx.drawImage(game.Atlas.img, s.x, s.y, game.Atlas.TileWidth, game.Atlas.TileHeight, px, py, game.TILE_SIZE, game.TILE_SIZE)
+            ctx.drawImage(game.AtlasImage, s.x, s.y, game.Atlas.TileWidth, game.Atlas.TileHeight, px, py, game.TILE_SIZE, game.TILE_SIZE)
         }
     }
 
