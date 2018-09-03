@@ -21,10 +21,13 @@
             let val = this.layers[layerName]
             return {
                 x: ((val - 1) % game.Atlas.ImageCols) * game.Atlas.TileWidth,
-                y: div(val - 1, game.Atlas.ImageCols) * game.Atlas.TileHeight
+                y: Math.floor((val - 1) / game.Atlas.ImageCols) * game.Atlas.TileHeight
             }
         }
 
+        // TODO: 
+        // This probably shouldn't be a method of class Tile,
+        // and should instead be a function in game.drawer
         draw(ctx, layer, px, py) {
             if (this.isEmpty(layer)) {
                 return

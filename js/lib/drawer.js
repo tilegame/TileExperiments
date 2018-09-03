@@ -1,18 +1,16 @@
 // ================================================
-// Drawer
+// Drawer  
 // ------------------------------------------------
 
-/*
-The Drawer handles the interaction with the canvas,
-abstracting the drawing concepts away from the rest of 
-the game logic.
+// {
+//   it's the kind of drawer that draws,
+//    but since it's pretty much a variable,
+//    you can also put things in it.  
+//
+//     So I guess it's a drawer filled with 
+//      shelves of drawing functions.
+// }
 
-requires: 
-    Atlas
-    LogicalMap
-    camera
-
-*/
 game.drawer = {
 
     init() {
@@ -60,48 +58,8 @@ game.drawer = {
             console.log(block)
 
         }
+
     },
-
-    //     DrawLayer(ctx, matrix) {
-    //         let sx, sy, sw, sh, dx, dy, dw, dh, val
-    //         sw = game.Atlas.TileWidth
-    //         sh = game.Atlas.TileHeight
-    //         dw = game.TILE_SIZE
-    //         dh = game.TILE_SIZE
-
-    //         for (let i = 0; i < matrix.length; i++) {
-    //             for (let j = 0; j < matrix[i].length; j++) {
-    //                 val = matrix[i][j]
-    //                 if (val <= 0) {
-    //                     continue
-    //                 }
-    //                 dx = j * dw
-    //                 dy = i * dh
-    //                 sx = ((val - 1) % game.Atlas.ImageCols) * sw
-    //                 sy = div(val - 1, game.Atlas.ImageCols) * sh
-    //                 ctx.drawImage(game.Atlas.img, sx, sy, sw, sh, dx, dy, dw, dh)
-    //             }
-    //         }
-    //     },
-
-    // DrawTile draws the tile at {px,py} relative to the canvas given.
-    // ctx: canvas 2d context.
-    // TileValue: type of tile to draw, based on Atlas.
-    // px and py: in units of PIXELS.
-
-    //     DrawBlock(BlockNum) {
-    //         let c = this.canvasList[BlockNum]
-    //         let ctx = this.ctxlist[BlockNum]
-
-    //         ctx.clearRect(0, 0, c.width, c.height)
-
-    //         let nLayers = game.LogicalMap.Data.length
-
-    //         for (let i = 0; i < nLayers; i++) {
-    //             this.DrawLayer(ctx, game.LogicalMap.Data[i])
-    //             console.log(`drawer: block ${BlockNum}: layer ${i} was drawn.`)
-    //         }
-    //     },
 
     // DrawMap() is called by the fetcher!
     // TODO: split data, For each BLOCK, draw that portion of the map.
@@ -113,7 +71,8 @@ game.drawer = {
 
 }
 
-// TODO: move this to a class definitions file/folder, and run it BEFORE
+// TODO: 
+// make class definitions file/folder, and run it BEFORE
 // initializing the "libs"
 
 // The MapBlock class will be added to game.defs, but will mainly be
@@ -160,17 +119,14 @@ game.drawer = {
         }
 
         DrawLayer(layer) {
-            let row = 0
-            let col = 0
-            for (let ty = this.ty0; ty < this.tyf; ty++) {
-                col = 0
-                for (let tx = this.tx0; tx < this.txf; tx++) {
+            for (let row = 0; row < this.th; row++) {
+                for (let col = 0; col < this.tw; col++) {
+                    let tx = this.tx0 + col
+                    let ty = this.ty0 + row
                     let px = col * game.TILE_SIZE
                     let py = row * game.TILE_SIZE
                     game.GetMapTile(tx, ty).draw(this.ctxList[layer], layer, px, py)
-                    col++
                 }
-                row++
             }
         }
 

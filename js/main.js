@@ -1,22 +1,4 @@
 // ================================================
-// Drawing the Map
-// ------------------------------------------------
-// Source: s
-// Destination: d
-// Position: x | y 
-// Width: w
-// Height: h
-
-// ================================================
-// Helper Functions
-// ------------------------------------------------
-
-// NOTE: This method is only correct for positive numbers.
-function div(a, b) {
-    return ~~((a - 1) / b)
-}
-
-// ================================================
 // Main
 // ------------------------------------------------
 game.main = (event)=>{
@@ -25,7 +7,7 @@ game.main = (event)=>{
     // Display to console for debugging.
 
     let LibList = ['player', 'camera', 'drawer', 'debug']
-    
+
     for (lib of LibList) {
         game[lib].init()
         console.log(`$ game.${lib}`, game[lib])
@@ -33,6 +15,10 @@ game.main = (event)=>{
 
     game.drawer.DrawMap()
     console.log("$ game", game)
+
+    // extra just for testing:
+    game.player.me.setPos(2, 1)
+
 }
 
 // Start the Fetcher When the Page has loaded.
@@ -41,8 +27,8 @@ game.main = (event)=>{
 window.addEventListener("load", ()=>{
     console.log("window loaded")
     game.fetcher.FetchMap(game.fetcher.DEFAULT)
-});
-
+}
+);
 
 // This should be the last .js file to be listed in the html,
 // which means it should be the last one to load.
