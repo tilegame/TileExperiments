@@ -54,6 +54,7 @@
             display: grid;
             grid-template-rows: repeat(3, 960px);
             grid-template-columns: repeat(3, 960px);
+            background: rgba(0,0,0,0);
         }
 
         .wrap > canvas {
@@ -67,6 +68,18 @@
             background: rgba(255,0,0,0.1);
             border: double rgba(255,0,0,0.9);
             position: absolute;
+        }
+
+        #WrapLayer0 {
+            z-index: 10;
+        }
+
+        #WrapPlayerLayer {
+            z-index: 20;
+        }
+
+        #WrapLayer1 {
+            z-index: 30;
         }
     </style>
     <!-- 
