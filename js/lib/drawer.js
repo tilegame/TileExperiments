@@ -21,7 +21,14 @@ game.drawer = {
         // Each one corresponds to the 8 sections visible in the game.
         this.blockList = new Array(9)
 
-        let classNameList = ['.one', '.two', '.three', '.four', '.five', '.six', '.seven', '.eight', '.nine']
+        // Layer 1: 
+        // Make a list of 'selectors' for the layer1 canvas elements.
+        let classNameList = new Array(9)
+        for (let i = 0; i < 9; i++) {
+            classNameList[i] = '#WrapLayer0 > canvas.block' + i
+        }
+
+        // Calculate the side length of a MapBlock, in units of TILES.
         let TilesPerBlock = Math.floor(game.BLOCK_SIZE / game.TILE_SIZE)
 
         // Create the MapBlocks!

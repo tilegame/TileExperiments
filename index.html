@@ -3,61 +3,70 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>Tilemap Test</title>
         <link rel="prefetch" href="img/tiles.png" type="image/png">
-        <link rel="prefetch" href="tools/hundred.json"  type="application/json">
-        <link rel="manifest" href="manifest.json" />
-        
+        <link rel="prefetch" href="tools/hundred.json" type="application/json">
+        <link rel="manifest" href="manifest.json"/>
     </head>
     <body>
         <div id="viewbox">
-            <div id="canvasWindow" class="wrap">
-                <canvas class="one" width="960" height="960"></canvas>
-                <canvas class="two" width="960" height="960"></canvas>
-                <canvas class="three" width="960" height="960"></canvas>
-                <canvas class="four" width="960" height="960"></canvas>
-                <canvas class="five" id="MidCanvas" width="960" height="960"></canvas>
-                <canvas class="six" width="960" height="960"></canvas>
-                <canvas class="seven" width="960" height="960"></canvas>
-                <canvas class="eight" width="960" height="960"></canvas>
-                <canvas class="nine" width="960" height="960"></canvas>
+            <div id="WrapLayer0" class="wrap absolute0">
+                <canvas class="block0" width="960" height="960"></canvas>
+                <canvas class="block1" width="960" height="960"></canvas>
+                <canvas class="block2" width="960" height="960"></canvas>
+                <canvas class="block3" width="960" height="960"></canvas>
+                <canvas class="block4" width="960" height="960"></canvas>
+                <canvas class="block5" width="960" height="960"></canvas>
+                <canvas class="block6" width="960" height="960"></canvas>
+                <canvas class="block7" width="960" height="960"></canvas>
+                <canvas class="block8" width="960" height="960"></canvas>
+            </div>
+            <div id="WrapPlayerLayer" class="wrap absolute0 transparent">
+                <canvas class="player" id="mainPlay" width="64" height="64"></canvas>
+            </div>
+            <div id="WrapLayer1" class="wrap absolute0 transparent">
+                <canvas class="block0" width="960" height="960"></canvas>
+                <canvas class="block1" width="960" height="960"></canvas>
+                <canvas class="block2" width="960" height="960"></canvas>
+                <canvas class="block3" width="960" height="960"></canvas>
+                <canvas class="block4" width="960" height="960"></canvas>
+                <canvas class="block5" width="960" height="960"></canvas>
+                <canvas class="block6" width="960" height="960"></canvas>
+                <canvas class="block7" width="960" height="960"></canvas>
+                <canvas class="block8" width="960" height="960"></canvas>
             </div>
         </div>
-        <canvas id="MainCharacter" class="player" width="64" height="64"></canvas>
     </body>
     <style>
-        canvas {
-            border: solid green 1px;
-            background: #efe;
-        }
-
         body {
             margin: 0;
         }
 
-        #GameCanvas {
-            background: #eee;
-            margin: auto;
+        .absolute0 {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .wrap {
             margin: auto;
             border: solid #eee;
-            background: #555;
             display: grid;
             grid-template-rows: repeat(3, 960px);
             grid-template-columns: repeat(3, 960px);
         }
-        .player {
-            background: rgba(255,0,0,0.1);
-            border: double rgba(255,0,0,0.9);
-            position: absolute;           
+
+        .wrap > canvas {
+            border: solid green 1px;
+            background: rgba(0,0,0,0);
         }
 
-        #MainCharacter {
-            top: 64px;
-            left: 64px;
+        #mainPlay {
+            top: 128px;
+            left: 128px;
+            background: rgba(255,0,0,0.1);
+            border: double rgba(255,0,0,0.9);
+            position: absolute;
         }
     </style>
     <!-- 
