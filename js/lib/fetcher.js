@@ -55,7 +55,7 @@ game.fetcher = {
 
         // TODO: make json into relative paths.
         path = window.location + "img/tiles.png"
-        
+
         console.log(`Fetching image from: ${path}`)
 
         // Once the image has been fetched and loaded, the map can be drawn.
@@ -99,8 +99,8 @@ game.fetcher = {
                 // Assign layer information
                 // TODO!!
                 // Change the JSON format, then change this!
-                t.layers['ground'] = game.LogicalMap.Data[0][row][col]
-                t.layers['above'] = game.LogicalMap.Data[1][row][col]
+                t.layers[game.enums.GROUND_LAYER] = game.LogicalMap.Data[0][row][col]
+                t.layers[game.enums.ABOVE_LAYER] = game.LogicalMap.Data[1][row][col]
 
                 // Save the tile into the TileMatrix.
                 matrix[row][col] = t
@@ -109,6 +109,10 @@ game.fetcher = {
         }
         // Save the filled matrix into an accessible location.
         game.TileMatrix = matrix
+        // Helper function for retrieving map tiles.
+        game.GetMapTile = (tx,ty)=>{
+            return game.TileMatrix[ty][tx]
+        }
     },
 
 }

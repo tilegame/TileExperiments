@@ -18,6 +18,13 @@ var game = {
 
     // Holds class definitions
     classes: {},
+
+    // Global Enum Values.
+    enums: {
+        GROUND_LAYER: 0,
+        ABOVE_LAYER: 1,
+    },
+
 }
 
 console.log("init done")

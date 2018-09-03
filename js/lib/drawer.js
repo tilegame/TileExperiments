@@ -17,43 +17,49 @@ game.drawer = {
 
     init() {
 
-        // blockList holds each of the Map Blocks.  
-        // Each one corresponds to the 8 sections visible in the game.
-        this.blockList = new Array(9)
+        // Number of Layers to save as MapBlocks 
+        let NUM_LAYERS = 2
 
-        // Layer 1: 
-        // Make a list of 'selectors' for the layer1 canvas elements.
-        let classNameList = new Array(9)
-        for (let i = 0; i < 9; i++) {
-            classNameList[i] = '#WrapLayer0 > canvas.block' + i
-        }
+        // Number of blocks per layer.
+        let NUM_BLOCKS = 9
 
         // Calculate the side length of a MapBlock, in units of TILES.
-        let TilesPerBlock = Math.floor(game.BLOCK_SIZE / game.TILE_SIZE)
+        let TILES_PER_BLOCK = Math.floor(game.BLOCK_SIZE / game.TILE_SIZE)
 
-        // Create the MapBlocks!
-        for (let i of this.blockList.keys()) {
+        // Create a blocklist, which holds all of the mapblocks.
+        // add references to the relevent canvases,
+        // and calculate the tiles they hold.
+        this.blocklist = []
 
-            // Grab a reference to the relevent canvas.
-            let canvas = document.querySelector(classNameList[i])
+        for (let i = 0; i < NUM_BLOCKS; i++) {
 
-            // Slice up the game.TileMatrix and put them into MapBlocks
-            // This determines the x0,y0,xf,yf bounds used to slice.
-            let x0 = (i % 3) * TilesPerBlock
-            let y0 = Math.floor(i / 3) * TilesPerBlock
-            let xf = x0 + TilesPerBlock
-            let yf = y0 + TilesPerBlock
+            // The starting positions are defined in a special way 
+            // because of the placement of the blocks (3 columns).
+            // this will change when the positioning changes. 
+            let tx0 = TILES_PER_BLOCK * (i % 3)
+            let ty0 = TILES_PER_BLOCK * Math.floor(i / 3)
 
-            // make a square matrix with side length of 'TilesPerBlock'.
-            // Slices the rows, then slices the columns. Chop chop!
-            let matrix = game.TileMatrix.slice(y0, yf)
-            for (let row of matrix.keys()) {
-                matrix[row] = matrix[row].slice(x0, xf)
+            // Width and Height of the mapblock will be the same,
+            // since the MapBlocks are squares. 
+            let tw = TILES_PER_BLOCK
+            let th = TILES_PER_BLOCK
+
+            // Add the canvas list (each of the layers).
+            let canvasList = []
+
+            // Iterate through the layers to retrieve the canvas elements.
+            for (let layer = 0; layer < NUM_LAYERS; layer++) {
+                let selector = `#WrapLayer${layer} > canvas.block${i}`
+                let canvas = document.querySelector(selector)
+                canvasList.push(canvas)
             }
-            this.blockList[i] = new game.classes.MapBlock(canvas,matrix)
-            this.blockList[i].FullDraw()
-        }
 
+            // Create the MapBlock and add it to the blocklist. 
+            let block = new game.classes.MapBlock(canvasList,tx0,ty0,tw,th)
+            this.blocklist.push(block)
+            console.log(block)
+
+        }
     },
 
     //     DrawLayer(ctx, matrix) {
@@ -99,11 +105,10 @@ game.drawer = {
 
     // DrawMap() is called by the fetcher!
     // TODO: split data, For each BLOCK, draw that portion of the map.
-    DrawMap() {//game.debug.OutlineMiddleTile(game.canvas, game.TILE_SIZE)
-    //         for (let i of this.blockList.keys()) {
-    //             this.blockList[i].FullDraw()
-    //             console.log(`block ${i} drawn`)
-    //         }
+    DrawMap() {
+        for (let mapblock of this.blocklist) {
+            mapblock.FullDraw()
+        }
     },
 
 }
@@ -116,14 +121,29 @@ game.drawer = {
 {
 
     class MapBlock {
-        constructor(canvas, matrix) {
+        constructor(canvasList, tx0, ty0, tw, th) {
+
+            // The canvas list is an array of canvas elements, each one of them
+            // refers to the same area of visual space, at different layers.
+            // the 0th entry in this array is the ground: the first to be drawn.
+            this.canvasList = canvasList
+            this.ctxList = []
 
             // keep references to each MapBlock's canvas.
-            this.canvas = canvas
-            this.ctx = this.canvas.getContext('2d')
+            for (let canvas of canvasList) {
+                this.ctxList.push(canvas.getContext('2d'))
+            }
 
-            // save the matrix of tiles.
-            this.matrix = matrix
+            // the rectangle defines the portion of the overall map.
+            // the mapblock is like a chunk of that map, and its bounds are
+            // defined using a rectangle.
+            // (the unit is tiles)
+            this.tx0 = tx0
+            this.ty0 = ty0
+            this.tw = tw
+            this.th = th
+            this.txf = tx0 + tw
+            this.tyf = ty0 + th
 
         }
 
@@ -135,18 +155,22 @@ game.drawer = {
         //       or call player.draw(), or find a good way to express the fact
         //       that players are drawn in between certain layers.
         FullDraw() {
-            this.DrawLayer("ground")
-            this.DrawLayer("above")
+            this.DrawLayer(game.enums.GROUND_LAYER)
+            this.DrawLayer(game.enums.ABOVE_LAYER)
         }
 
         DrawLayer(layer) {
-            // Iterate through the tiles, drawing each one.
-            for (let[ty,row] of this.matrix.entries()) {
-                for (let[tx,tile] of row.entries()) {
-                    let px = tx * game.TILE_SIZE
-                    let py = ty * game.TILE_SIZE
-                    tile.draw(this.ctx, layer, px, py)
+            let row = 0
+            let col = 0
+            for (let ty = this.ty0; ty < this.tyf; ty++) {
+                col = 0
+                for (let tx = this.tx0; tx < this.txf; tx++) {
+                    let px = col * game.TILE_SIZE
+                    let py = row * game.TILE_SIZE
+                    game.GetMapTile(tx, ty).draw(this.ctxList[layer], layer, px, py)
+                    col++
                 }
+                row++
             }
         }
 
