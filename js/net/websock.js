@@ -24,7 +24,7 @@
 
         static HandleJSONMessage(IncomingMessage) {
             let msg = JSON.parse(IncomingMessage)
-            msg.TIME = new Date(msg.TIME).toTimeString()
+            // msg.TIME = new Date(msg.time).toTimeString()
             console.log(msg)
         }
 
@@ -40,9 +40,9 @@
 
             // Convert into a JSON message, according to the server APIs.
             let msg = JSON.stringify({
-                num: id,
-                time: (new Date()).getTime(),
+                ID: id,
                 msg: MessageString,
+                //time: (new Date()).getTime(),
             });
 
             // Send the JSON message across the websocket.
@@ -80,7 +80,7 @@
         // If you don't know what this is doing: remove it. 
         DEFAULT_LOCAL_SERVER: new URL(`ws://${window.location.hostname}:8090/ws/echo`),
 
-        ConnectLocalServer() {
+        StartLocal() {
             this.ws = this.ConnectTo(this.DEFAULT_LOCAL_SERVER)
             return this.ws
         },
