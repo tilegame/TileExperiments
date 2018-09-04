@@ -55,7 +55,6 @@ game.drawer = {
             // Create the MapBlock and add it to the blocklist. 
             let block = new game.classes.MapBlock(canvasList,tx0,ty0,tw,th)
             this.blocklist.push(block)
-            console.log(block)
 
         }
 
