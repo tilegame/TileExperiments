@@ -1,11 +1,11 @@
 // ================================================
-// Websockets
+// Websockets 
 // ------------------------------------------------
 
 {
     class WebSocketHub {
-        constructor() {
-            this.conn = new WebSocket("wss://thebachend.com/ws/echo");
+        constructor(address) {
+            this.conn = new WebSocket(address);
             this.conn.onclose = WebSocketHub.DefaultHandleClose;
             this.conn.onmessage = WebSocketHub.DefaultHandleMessage;
             this.uid = 123
@@ -46,20 +46,44 @@
             });
 
             // Send the JSON message across the websocket.
-            return this.conn.send(msg);
+            this.conn.send(msg);
+            return id
         }
     }
     game.classes.net.WebSocketHub = WebSocketHub
 }
 
-game.net = {
-    init() {
-        // Before Creating the WebSocketHub, test to make sure the browser supports it.
-        if (window["WebSocket"]) {
-            this.ws = new game.classes.net.WebSocketHub();
-        } else {
-            console.log("Cannot connect to Websocket");
-        }
-    },
+// ================================================
+// game.net
+// ------------------------------------------------
 
+{
+    game.net = {
+
+        // Canonical URL of the game websocket server.
+        DEFAULT_SERVER: new URL('wss://thebachend.com/ws/echo'),
+
+        // Creates a new WebSocketHub using the specified address.
+        ConnectTo(address) {
+            if (window["WebSocket"]) {
+                return new game.classes.net.WebSocketHub(address)
+            } else {
+                throw new Error(`Cannot connect to Websocket at ${address}`)
+            }
+        },
+
+        init() {
+            this.ws = this.ConnectTo(this.DEFAULT_SERVER)
+        },
+
+        // NOTE! DEFAULT_LOCAL_SERVER definition is a kludge.
+        // If you don't know what this is doing: remove it. 
+        DEFAULT_LOCAL_SERVER: new URL(`ws://${window.location.hostname}:8090/ws/echo`),
+
+        ConnectLocalServer() {
+            this.ws = this.ConnectTo(this.DEFAULT_LOCAL_SERVER)
+            return this.ws
+        },
+
+    }
 }
