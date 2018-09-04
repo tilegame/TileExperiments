@@ -29,12 +29,6 @@ var game = {
 
 }
 
-// TODO: 
-// find a better name for this alias.
-// currently using this just because it's easy to type.
-// 
-// gs: Game Send
-// gs is an alias for game.net.ws.send() 
-var gs = (string)=>game.net.ws.send(string)
+var ws
 
 console.log("init done")

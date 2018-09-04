@@ -34,23 +34,35 @@
             return copy
         }
 
-        send(MessageString) {
+        send(MessageString, ...params) {
             // Increment the id counter so we can match up the message.
             let id = this.nextId()
 
+            // Convert the parameters into an array
+            let Parameters = []
+            for (let p of params) {
+                Parameters.push(p)
+            }
+
             // Convert into a JSON message, according to the server APIs.
             let msg = JSON.stringify({
-                ID: id,
-                msg: MessageString,
+                id: id,
+                method: MessageString,
+                params: Parameters,
                 //time: (new Date()).getTime(),
             });
 
             // Send the JSON message across the websocket.
             this.conn.send(msg);
-            return id
+            return
         }
     }
     game.classes.net.WebSocketHub = WebSocketHub
+
+    // Set the Alias variable 'ws' to it function.
+    ws = (string,...params)=>game.net.ws.send(string, ...params)
+    wsreset = ()=>game.net.StartLocal()
+
 }
 
 // ================================================
