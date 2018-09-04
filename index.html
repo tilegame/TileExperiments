@@ -83,11 +83,12 @@
         }
     </style>
     <!-- 
-    1. game object is set up by init.js
-    2. libraries are loaded into the game object.
-    3. main.js starts everything.
+    1. init.js creates game object.
+    2. classes and libraries are added to game object.
+    3. main.js calls init() on libraries.
     -->
     <script src="js/init.js"></script>
+    <script src="js/net/websock.js"></script>
     <script src="js/lib/drawer.js"></script>
     <script src="js/lib/tiles.js"></script>
     <script src="js/lib/player.js"></script>

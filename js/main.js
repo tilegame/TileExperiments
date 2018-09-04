@@ -6,7 +6,7 @@ game.main = (event)=>{
     // Call the init() function on each of the libraries.
     // Display to console for debugging.
 
-    let LibList = ['player', 'camera', 'drawer', 'debug']
+    let LibList = ['net', 'player', 'camera', 'drawer', 'debug']
 
     for (lib of LibList) {
         game[lib].init()

@@ -17,7 +17,9 @@ var game = {
     BLOCK_SIZE: 960,
 
     // Holds class definitions
-    classes: {},
+    classes: {
+        net: {},
+    },
 
     // Global Enum Values.
     enums: {
