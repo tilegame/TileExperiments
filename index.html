@@ -21,9 +21,7 @@
                 <canvas class="block7" width="960" height="960"></canvas>
                 <canvas class="block8" width="960" height="960"></canvas>
             </div>
-            <div id="WrapPlayerLayer" class="wrap absolute0 transparent">
-                <canvas class="player" id="mainPlay" width="64" height="64"></canvas>
-            </div>
+            <div id="WrapPlayerLayer" class="wrap absolute0 transparent"></div>
             <div id="WrapLayer1" class="wrap absolute0 transparent">
                 <canvas class="block0" width="960" height="960"></canvas>
                 <canvas class="block1" width="960" height="960"></canvas>
@@ -58,15 +56,11 @@
         }
 
         .wrap > canvas {
-            border: solid green 1px;
             background: rgba(0,0,0,0);
         }
 
-        #mainPlay {
-            top: 128px;
-            left: 128px;
+        #WrapPlayerLayer > .player {
             background: rgba(255,0,0,0.5);
-            border: double rgba(255,0,0,0.9);
             position: absolute;
         }
 
