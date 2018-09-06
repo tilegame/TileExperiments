@@ -15,10 +15,18 @@ game.main = (event)=>{
 
     game.drawer.DrawMap()
     // console.log("$ game \n", game)
+    
+    // TODO: unqiue usernames! 
+    let MY_USERNAME = 'me'
 
-    // extra just for testing:
-    game.player.me.setPos(2, 1)
-
+    // Create the client's main player character
+    let x = 5
+    let y = 5
+    let p = game.classes.Player.New(MY_USERNAME, x, y)
+    p.setPos(x, y)
+    p.setTarget(x, y)
+    p.Draw()
+    game.player.me = p
 }
 
 // Start the Fetcher When the Page has loaded.

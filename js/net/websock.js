@@ -26,6 +26,7 @@
             let msg = JSON.parse(IncomingMessage)
             // msg.TIME = new Date(msg.time).toTimeString()
             console.log(msg)
+            game.net.HandleMessage(msg)
         }
 
         nextId() {
@@ -46,7 +47,7 @@
 
             // Convert into a JSON message, according to the server APIs.
             let msg = JSON.stringify({
-                id: id,
+                // id: id,
                 method: MessageString,
                 params: Parameters,
                 //time: (new Date()).getTime(),
@@ -71,6 +72,9 @@
 
 {
     game.net = {
+        init() {
+            this.ws = this.ConnectTo(this.DEFAULT_SERVER)
+        },
 
         // Canonical URL of the game websocket server.
         DEFAULT_SERVER: new URL('wss://thebachend.com/ws/echo'),
@@ -84,10 +88,6 @@
             }
         },
 
-        init() {
-            this.ws = this.ConnectTo(this.DEFAULT_SERVER)
-        },
-
         // NOTE! DEFAULT_LOCAL_SERVER definition is a kludge.
         // If you don't know what this is doing: remove it. 
         DEFAULT_LOCAL_SERVER: new URL(`ws://${window.location.hostname}:8090/ws/echo`),
@@ -98,4 +98,39 @@
         },
 
     }
+}
+
+// ================================================
+// game.net.HandleMessage
+// ------------------------------------------------
+{
+    let funcMap = {
+        'playerlist': handlePlayerList,
+        'UpdateTargets': handleUpdateTargets,
+    }
+    
+    // Lookup the function to execute based on the message kind.
+    function HandleIncomingMessage(message) {
+        if (message.kind === undefined) {
+            return
+        }
+        let f = funcMap[message.kind]
+        if (typeof (f) !== 'function') {
+            throw new Error(`message kind not implemented: ${message.kind}`)
+        }
+        f(message)
+    }
+
+    function handlePlayerList(message) {
+        game.player.UpdateList(message.result)
+
+    }
+
+    function handleUpdateTargets(message) {
+        for (let[name,pos] of Object.entries(message.result)) {
+            game.player.list2[name].TargetPos = pos
+        }
+    }
+
+    game.net.HandleMessage = HandleIncomingMessage
 }
