@@ -10,11 +10,11 @@ game.main = (event)=>{
 
     for (lib of LibList) {
         game[lib].init()
-        console.log(`$ game.${lib}`, game[lib])
+        // console.log(`$ game.${lib}`, game[lib])
     }
 
     game.drawer.DrawMap()
-    console.log("$ game", game)
+    // console.log("$ game \n", game)
 
     // extra just for testing:
     game.player.me.setPos(2, 1)
@@ -33,4 +33,5 @@ window.addEventListener("load", ()=>{
 // This should be the last .js file to be listed in the html,
 // which means it should be the last one to load.
 // Check that all definitions have been loaded:
-console.log("$ game.classes", game.classes)
+
+// console.log("$ game.classes \n", game.classes)
