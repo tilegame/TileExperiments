@@ -6,7 +6,7 @@ game.main = (event)=>{
     // Call the init() function on each of the libraries.
     // Display to console for debugging.
 
-    let LibList = ['net', 'player', 'camera', 'drawer', 'debug']
+    let LibList = ['net', 'player', 'camera', 'drawer', 'debug', 'interact']
 
     for (lib of LibList) {
         game[lib].init()
@@ -27,6 +27,12 @@ game.main = (event)=>{
     p.setTarget(x, y)
     p.Draw()
     game.player.me = p
+
+    game.net.ws.conn.addEventListener('open', ()=>{    
+        ws('add', game.MY_USER)
+        ws('move', game.MY_USER, 2, 8)
+        ws('list')
+    })
 }
 
 // Start the Fetcher When the Page has loaded.

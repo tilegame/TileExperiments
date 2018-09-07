@@ -21,7 +21,9 @@
                 <canvas class="block7" width="960" height="960"></canvas>
                 <canvas class="block8" width="960" height="960"></canvas>
             </div>
-            <div id="WrapPlayerLayer" class="wrap absolute0 transparent"></div>
+            <div id="WrapPlayerLayer" class="wrap absolute0 transparent">
+                <canvas id="myclickbox" class="target" width="64" height="64"></canvas>
+            </div>
             <div id="WrapLayer1" class="wrap absolute0 transparent">
                 <canvas class="block0" width="960" height="960"></canvas>
                 <canvas class="block1" width="960" height="960"></canvas>
@@ -55,17 +57,22 @@
             background: rgba(0,0,0,0);
         }
 
-        .wrap > canvas {
-            background: rgba(0,0,0,0);
-        }
-
-        #WrapPlayerLayer > .player {
-            background: rgba(255,0,0,0.5);
-            position: absolute;
-        }
-
         #WrapLayer0 {
             z-index: 10;
+        }
+
+        .target {
+            background: rgba(0,0,255,0.5);
+            position: absolute;
+            z-index: 21;
+            top: -64px;
+            left: -64px;
+        }
+
+        .player {
+            background: rgba(255,0,0,0.5);
+            position: absolute;
+            z-index: 22;
         }
 
         #WrapPlayerLayer {
@@ -89,5 +96,6 @@
     <script src="js/lib/camera.js"></script>
     <script src="js/lib/debug.js"></script>
     <script src="js/lib/fetcher.js"></script>
+    <script src="js/lib/interact.js"></script>
     <script src="js/main.js"></script>
 </html>

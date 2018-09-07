@@ -27,6 +27,9 @@ var game = {
         ABOVE_LAYER: 1,
     },
 
+    // Default Player Username
+    MY_USER: "user" + (new Date()).getTime()
+
 }
 
 var ws

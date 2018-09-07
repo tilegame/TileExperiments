@@ -5,23 +5,49 @@
 game.player = {
     init() {
         // game.player.list is the client's local playerlist.
-        this.list = {}
+        this.list = new Map()
+
+        // activeset is used to detect when players have left the area.
+        // when a FullPlayerList message is received, this activelist
+        // gets filled with the player names.  Then, Refresh() is called
+        // to remove any players that aren't in this activelist.
+        this.active = new Set()
     },
 
+    // UpdateList refreshes the playerlist and replaces it with
+    // the list provided by the server.
     UpdateList(result) {
+        this.active.clear()
         for (let [name, p] of Object.entries(result)) {
-            
+
             // Create a new player object if it hasn't been added yet.
-            if (this.list[name] === undefined) {
-                this.list[name] = game.classes.Player.New(name)
+            if (!this.list.has(name)) {
+                this.list.set(name, game.classes.Player.New(name))
             }
 
             // Update the position values
-            this.list[name].CurrentPos = p.CurrentPos
-            this.list[name].TargetPos = p.TargetPos
-            this.list[name].Draw()
-        }        
+            this.list.get(name).CurrentPos = p.CurrentPos
+            this.list.get(name).TargetPos = p.TargetPos
+            this.list.get(name).Draw()
+
+            // Add the name to the Active set so we don't delete it.
+            this.active.add(name)
+        }
+        this.Refresh()
     },
+
+    // check for any names that are no longer active.  Remove them
+    // so they don't continue to appear on the screen.
+    Refresh() {
+        for (let name of this.list.keys()) {
+            if (this.active.has(name)) {
+                this.active.delete(name)
+            } else {
+                this.list.get(name).canvas.remove()
+                this.list.delete(name)
+            }
+        }
+    }
 }
 
 {
@@ -62,7 +88,7 @@ game.player = {
             p.name = name
 
             // Add to the player list.
-            game.player.list[name] = p
+            game.player.list.set(name, p)
 
             // Return a reference to the newly created player.
             return p

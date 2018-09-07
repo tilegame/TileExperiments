@@ -25,7 +25,7 @@
         static HandleJSONMessage(IncomingMessage) {
             let msg = JSON.parse(IncomingMessage)
             // msg.TIME = new Date(msg.time).toTimeString()
-            console.log(msg)
+            // console.log(msg)
             game.net.HandleMessage(msg)
         }
 
