@@ -6,13 +6,18 @@
     class WebSocketHub {
         constructor(address) {
             this.conn = new WebSocket(address);
+            this.conn.onopen = WebSocketHub.DefaultHandleOpen
             this.conn.onclose = WebSocketHub.DefaultHandleClose;
             this.conn.onmessage = WebSocketHub.DefaultHandleMessage;
             this.uid = 123
         }
 
+        static DefaultHandleOpen(evt) {
+            console.log(`Connection Opened: ${evt.currentTarget.url}`)
+        }
+
         static DefaultHandleClose(evt) {
-            console.log("Connection closed.");
+            console.log(`Connection Closed: ${evt.currentTarget.url}`)
         }
 
         static DefaultHandleMessage(evt) {
@@ -37,7 +42,7 @@
 
         send(MessageString, ...params) {
             // Increment the id counter so we can match up the message.
-            let id = this.nextId()
+            // let id = this.nextId()
 
             // Convert the parameters into an array
             let Parameters = []
@@ -62,7 +67,12 @@
 
     // Set the Alias variable 'ws' to it function.
     ws = (string,...params)=>game.net.ws.send(string, ...params)
-    wsreset = ()=>game.net.StartLocal()
+    wsreset = ()=>{        
+        game.net.ws.conn.addEventListener('close', function() {
+            game.net.StartLocal()
+        })
+        game.net.ws.conn.close()
+    }
 
 }
 
@@ -94,6 +104,11 @@
 
         StartLocal() {
             this.ws = this.ConnectTo(this.DEFAULT_LOCAL_SERVER)
+            game.net.ws.conn.addEventListener('open', function() {
+                ws('add', game.MY_USER)
+                ws('move', game.MY_USER, 2, 8)
+                ws('list')
+            })
             return this.ws
         },
 
@@ -104,11 +119,13 @@
 // game.net.HandleMessage
 // ------------------------------------------------
 {
+    // function mapping:  (message.kind) -> (function(message))
     let funcMap = {
         'playerlist': handlePlayerList,
         'UpdateTargets': handleUpdateTargets,
+        'chat': handleChat,
     }
-    
+
     // Lookup the function to execute based on the message kind.
     function HandleIncomingMessage(message) {
         if (message.kind === undefined) {
@@ -130,6 +147,10 @@
         for (let[name,pos] of Object.entries(message.result)) {
             game.player.list2[name].TargetPos = pos
         }
+    }
+
+    function handleChat(message) {
+        console.log(message)
     }
 
     game.net.HandleMessage = HandleIncomingMessage

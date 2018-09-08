@@ -21,6 +21,9 @@ var game = {
         net: {},
     },
 
+    // toolkit holds helper functions
+    toolkit: {},
+
     // Global Enum Values.
     enums: {
         GROUND_LAYER: 0,

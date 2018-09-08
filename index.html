@@ -24,6 +24,7 @@
             <div id="WrapPlayerLayer" class="wrap absolute0 transparent">
                 <canvas id="myclickbox" class="target" width="64" height="64"></canvas>
             </div>
+            <div id="WrapChat"></div>
             <div id="WrapLayer1" class="wrap absolute0 transparent">
                 <canvas class="block0" width="960" height="960"></canvas>
                 <canvas class="block1" width="960" height="960"></canvas>
@@ -75,6 +76,11 @@
             z-index: 22;
         }
 
+        .chatbox {
+            position: absolute;
+            z-index: 23;
+        }
+
         #WrapPlayerLayer {
             z-index: 20;
         }
@@ -83,12 +89,8 @@
             z-index: 30;
         }
     </style>
-    <!-- 
-    1. init.js creates game object.
-    2. classes and libraries are added to game object.
-    3. main.js calls init() on libraries.
-    -->
     <script src="js/init.js"></script>
+    <script src="js/toolkit/elements.js"></script>
     <script src="js/net/websock.js"></script>
     <script src="js/lib/drawer.js"></script>
     <script src="js/lib/tiles.js"></script>
@@ -97,5 +99,6 @@
     <script src="js/lib/debug.js"></script>
     <script src="js/lib/fetcher.js"></script>
     <script src="js/lib/interact.js"></script>
+    <script src="js/lib/chat.js"></script>
     <script src="js/main.js"></script>
 </html>
