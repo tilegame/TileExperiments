@@ -18,16 +18,21 @@ game.player = {
     // the list provided by the server.
     UpdateList(result) {
         this.active.clear()
-        for (let [name, p] of Object.entries(result)) {
+        for (let[name,p] of Object.entries(result)) {
 
             // Create a new player object if it hasn't been added yet.
             if (!this.list.has(name)) {
                 this.list.set(name, game.classes.Player.New(name))
             }
-
             // Update the position values
-            this.list.get(name).CurrentPos = p.CurrentPos
-            this.list.get(name).TargetPos = p.TargetPos
+            {
+                let {X, Y} = p.CurrentPos
+                this.list.get(name).setPos(X, Y)
+            }
+            {
+                let {X, Y} = p.TargetPos
+                this.list.get(name).setTarget(X, Y)
+            }
             this.list.get(name).Draw()
 
             // Add the name to the Active set so we don't delete it.
@@ -44,7 +49,9 @@ game.player = {
                 this.active.delete(name)
             } else {
                 this.list.get(name).canvas.remove()
+                this.list.get(name).chatbox.remove()
                 this.list.delete(name)
+
             }
         }
     }
@@ -52,7 +59,7 @@ game.player = {
 
 {
     class Player {
-        constructor(canvas) {
+        constructor(canvas, name) {
             this.name = name
             this.canvas = canvas
             this.ctx = canvas.getContext('2d')
@@ -64,6 +71,8 @@ game.player = {
                 X: 1,
                 Y: 1
             }
+            this.chatbox = new game.chat.ChatBox()
+            this.chatbox.setText(this.name)
         }
 
         // NewPlayer creates a new canvas for the player at the specified
@@ -84,8 +93,7 @@ game.player = {
             document.querySelector('#WrapPlayerLayer').appendChild(canvas)
 
             // Creates the player objects and passes it the new canvas.
-            let p = new Player(canvas)
-            p.name = name
+            let p = new Player(canvas, name)
 
             // Add to the player list.
             game.player.list.set(name, p)
@@ -101,6 +109,7 @@ game.player = {
                 X,
                 Y
             }
+            this.chatbox.setPos(X, Y)
         }
 
         // setTarget simply changes the value of the player's target Position.

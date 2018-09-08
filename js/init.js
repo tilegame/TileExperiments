@@ -31,7 +31,7 @@ var game = {
     },
 
     // Default Player Username
-    MY_USER: "user" + (new Date()).getTime()
+    MY_USER: "user" + (new Date()).getTime().toString().slice(-7, -2)
 
 }
 

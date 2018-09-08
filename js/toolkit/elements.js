@@ -17,7 +17,6 @@
                 ele.setAttribute(key, val)
             }
         }
-
         // Parent can be either an object or a selector string.
         if (Parent !== undefined) {
             switch (typeof (Parent)) {
@@ -27,7 +26,6 @@
                 document.querySelector(Parent).appendChild(ele)
             }
         }
-
         return ele
     }
 

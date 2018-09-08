@@ -9,7 +9,7 @@
         <link rel="manifest" href="manifest.json"/>
     </head>
     <body>
-        <div id="viewbox">
+        <div id="viewbox" class="absolute0">
             <div id="WrapLayer0" class="wrap absolute0">
                 <canvas class="block0" width="960" height="960"></canvas>
                 <canvas class="block1" width="960" height="960"></canvas>
@@ -36,11 +36,15 @@
                 <canvas class="block7" width="960" height="960"></canvas>
                 <canvas class="block8" width="960" height="960"></canvas>
             </div>
+            <div id="Overlay" class="absolute0"></div>
         </div>
     </body>
     <style>
         body {
             margin: 0;
+        }
+        canvas {
+            border: 0;
         }
 
         .absolute0 {
@@ -51,7 +55,6 @@
 
         .wrap {
             margin: auto;
-            border: solid #eee;
             display: grid;
             grid-template-rows: repeat(3, 960px);
             grid-template-columns: repeat(3, 960px);
@@ -71,14 +74,23 @@
         }
 
         .player {
+            z-index: 22;
             background: rgba(255,0,0,0.5);
             position: absolute;
-            z-index: 22;
         }
 
         .chatbox {
+            z-index: 31;
+            /* font-family: monospace; */
+            width: 66ch;
+            max-width: 66ch;
+            font-weight: bold;
             position: absolute;
-            z-index: 23;
+            text-align: center;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+/*             text-shadow: -1px -1px 0px white, -1px 1px 0px white, 1px -1px 0px white, 1px 1px 0px white; */
+            user-select: none;
         }
 
         #WrapPlayerLayer {
@@ -87,6 +99,15 @@
 
         #WrapLayer1 {
             z-index: 30;
+        }
+
+        #Overlay {
+            z-index: 100;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2880px;
+            height: 2880px;
         }
     </style>
     <script src="js/init.js"></script>

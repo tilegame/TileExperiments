@@ -5,7 +5,7 @@
     // The overlay canvas is what the user actually clicks on.
     // Keep this as a variable, because the specific canvas
     // element may change in the future.
-    let overlay = document.querySelector('#WrapLayer1')
+    let overlay = document.querySelector('#Overlay')
 
     // The clickbox is a fancy extra box that it used to show you
     // that you have clicked on a tile.

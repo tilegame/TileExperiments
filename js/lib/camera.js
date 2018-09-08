@@ -58,4 +58,12 @@ game.camera = {
         let y = (b - this.FirstTile.y) * game.TILE_SIZE - window.innerWidth / 2
         window.scrollTo(x, y)
     },
+    // getTileCenterCoords returns the pixel location of the center 
+    // of the specified tile.
+    getTileCenterCoords(a, b) {
+        return {
+            x: (a - this.FirstTile.x) * game.TILE_SIZE,
+            y: (b - this.FirstTile.y) * game.TILE_SIZE,
+        }
+    },
 }
