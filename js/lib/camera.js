@@ -28,6 +28,12 @@ game.camera = {
         // Values used frequently by the generators, these should be 
         // updated whenever the camera position changes.
         this.UpdateBounds()
+
+        // Scrollable Viewport Element
+        // The element that can actually be manipulated using the 
+        // scrollTo command.  Originally, this was just the window,
+        // but as the HTML structure changes, this element might change.
+        this.ScrollableViewport = document.querySelector('#GameViewport')
     },
     // Update calculates the bounds based on the current camera position.
     UpdateBounds() {
@@ -49,15 +55,23 @@ game.camera = {
     // Scrolls such that the absolute center tile is displayed in the center 
     // of the screen.
     center() {
-        let x = game.BLOCK_SIZE * 3 / 2 - window.innerWidth / 2
-        let y = game.BLOCK_SIZE * 3 / 2 - window.innerHeight / 2
-        window.scrollTo(x, y)
+        let w = this.ScrollableViewport.innerWidth
+        let h = this.ScrollableViewport.innerHeight
+        let x = game.BLOCK_SIZE * 3 / 2 - w / 2
+        let y = game.BLOCK_SIZE * 3 / 2 - h / 2
+        this.ScrollableViewport.scrollTo(x, y)
     },
+
+    // Scrolls such that the specified tile becomes visible
+    // at the center of the screen.
     scrollToTile(a, b) {
-        let x = (a - this.FirstTile.x) * game.TILE_SIZE - window.innerWidth / 2
-        let y = (b - this.FirstTile.y) * game.TILE_SIZE - window.innerWidth / 2
-        window.scrollTo(x, y)
+        let w = this.ScrollableViewport.clientWidth
+        let h = this.ScrollableViewport.clientHeight
+        let x = (a - this.FirstTile.x) * game.TILE_SIZE - w / 2
+        let y = (b - this.FirstTile.y) * game.TILE_SIZE - h / 2
+        this.ScrollableViewport.scrollTo(x, y)
     },
+
     // getTileCenterCoords returns the pixel location of the center 
     // of the specified tile.
     getTileCenterCoords(a, b) {

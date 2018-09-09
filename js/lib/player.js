@@ -12,6 +12,11 @@ game.player = {
         // gets filled with the player names.  Then, Refresh() is called
         // to remove any players that aren't in this activelist.
         this.active = new Set()
+
+        this.me = function() {
+            return game.player.list.get(game.MY_USER)
+        }
+
     },
 
     // UpdateList refreshes the playerlist and replaces it with
@@ -24,16 +29,24 @@ game.player = {
             if (!this.list.has(name)) {
                 this.list.set(name, game.classes.Player.New(name))
             }
+            // Retrieve the player object.
+            let play = this.list.get(name)
+
             // Update the position values
             {
                 let {X, Y} = p.CurrentPos
-                this.list.get(name).setPos(X, Y)
+                play.setPos(X, Y)
             }
             {
                 let {X, Y} = p.TargetPos
-                this.list.get(name).setTarget(X, Y)
+                play.setTarget(X, Y)
             }
-            this.list.get(name).Draw()
+            play.Draw()
+
+            // If you are updating the main player, scroll to them.  
+            if (name = game.MY_USER) {
+                play.scrollTo()
+            }
 
             // Add the name to the Active set so we don't delete it.
             this.active.add(name)
@@ -135,6 +148,13 @@ game.player = {
         // the player wants to move.
         moveTo(tx, ty) {
             ws('move', this.name, tx, ty)
+        }
+
+        // Player.scrollTo centers the camera on the tile that the 
+        // player is standing on.
+        scrollTo() {
+            let {X,Y} = this.CurrentPos
+            game.camera.scrollToTile(X,Y)
         }
     }
 
