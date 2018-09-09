@@ -162,3 +162,26 @@
 
     game.net.HandleMessage = HandleIncomingMessage
 }
+
+
+// ================================================
+// Sending chat messages with Chat Form.
+// ------------------------------------------------
+{
+    let chatbar = document.querySelector('#ChatBar')
+    let chatform = document.querySelector('#ChatInputForm')
+
+    function submitChat() {
+        if (!chatbar.value) {
+            return false
+        }
+        if (!game.net.ws.conn) {
+            return false
+        }
+        ws('chat', game.MY_USER, chatbar.value)
+        chatbar.value = ""
+        return false
+    }
+
+    chatform.onsubmit = submitChat
+}

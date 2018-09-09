@@ -39,8 +39,12 @@
             <div id="Overlay" class="absolute0"></div>
         </div>
         <div id="ChatViewport">
-            <input id="ChatBar" type="text" placeholder="Say something!" size="66"></input>
-            <input id="SendChat" type="button" value="Send"></input>
+            <form id="ChatInputForm">
+                <div id="ChatInputElements">
+                    <input id="ChatBar" type="text" placeholder="Say something!" size="66"></input>
+                    <input id="SendChat" type="submit" value="Send"></input>
+                </div>
+            </form>
         </div>
     </body>
     <style>
@@ -66,6 +70,10 @@
             left: 0;
             height: 3em;
             z-index: 300;
+        }
+
+        #ChatInputElements {
+            height: 3em;
             display: grid;
             grid-template-columns: 85% auto;
         }
