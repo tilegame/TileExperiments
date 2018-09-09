@@ -43,11 +43,6 @@ game.player = {
             }
             play.Draw()
 
-            // If you are updating the main player, scroll to them.  
-            if (name = game.MY_USER) {
-                play.scrollTo()
-            }
-
             // Add the name to the Active set so we don't delete it.
             this.active.add(name)
         }
