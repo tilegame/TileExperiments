@@ -76,8 +76,17 @@ game.camera = {
     // of the specified tile.
     getTileCenterCoords(a, b) {
         return {
-            x: (a - this.FirstTile.x) * game.TILE_SIZE,
-            y: (b - this.FirstTile.y) * game.TILE_SIZE,
+            x: (a - this.FirstTile.x + 0.5) * game.TILE_SIZE,
+            y: (b - this.FirstTile.y + 0.5) * game.TILE_SIZE,
+        }
+    },
+
+    // returns the upper-left corner of a tile, which is useful for
+    // setting styles like "top" and "left"
+    getTileTopLeft(a,b) {
+        return {
+            top: game.TILE_SIZE * (a - this.FirstTile.y),
+            left: game.TILE_SIZE * (b - this.FirstTile.x),
         }
     },
 }

@@ -101,7 +101,7 @@ game.player = {
             document.querySelector('#WrapPlayerLayer').appendChild(canvas)
 
             // Creates the player objects and passes it the new canvas.
-            let p = new Player(canvas, name)
+            let p = new Player(canvas,name)
 
             // Add to the player list.
             game.player.list.set(name, p)
@@ -148,8 +148,8 @@ game.player = {
         // Player.scrollTo centers the camera on the tile that the 
         // player is standing on.
         scrollTo() {
-            let {X,Y} = this.CurrentPos
-            game.camera.scrollToTile(X,Y)
+            let {X, Y} = this.CurrentPos
+            game.camera.scrollToTile(X, Y)
         }
     }
 

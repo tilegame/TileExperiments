@@ -10,33 +10,55 @@
     </head>
     <body>
         <div id="GameViewport">
-            <div id="WrapLayer0" class="wrap absolute0">
-                <canvas class="block0" width="960" height="960"></canvas>
-                <canvas class="block1" width="960" height="960"></canvas>
-                <canvas class="block2" width="960" height="960"></canvas>
-                <canvas class="block3" width="960" height="960"></canvas>
-                <canvas class="block4" width="960" height="960"></canvas>
-                <canvas class="block5" width="960" height="960"></canvas>
-                <canvas class="block6" width="960" height="960"></canvas>
-                <canvas class="block7" width="960" height="960"></canvas>
-                <canvas class="block8" width="960" height="960"></canvas>
+            <div id="VisualMap">
+                <div class="row">
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                </div>
             </div>
-            <div id="WrapPlayerLayer" class="wrap absolute0 transparent">
+            <div id="WrapPlayerLayer">
                 <canvas id="myclickbox" class="target" width="64" height="64"></canvas>
             </div>
             <div id="WrapChat"></div>
-            <div id="WrapLayer1" class="wrap absolute0 transparent">
-                <canvas class="block0" width="960" height="960"></canvas>
-                <canvas class="block1" width="960" height="960"></canvas>
-                <canvas class="block2" width="960" height="960"></canvas>
-                <canvas class="block3" width="960" height="960"></canvas>
-                <canvas class="block4" width="960" height="960"></canvas>
-                <canvas class="block5" width="960" height="960"></canvas>
-                <canvas class="block6" width="960" height="960"></canvas>
-                <canvas class="block7" width="960" height="960"></canvas>
-                <canvas class="block8" width="960" height="960"></canvas>
-            </div>
-            <div id="Overlay" class="absolute0"></div>
+            <div id="Overlay"></div>
         </div>
         <div id="ChatViewport">
             <form id="ChatInputForm">
@@ -48,6 +70,8 @@
         </div>
     </body>
     <style>
+        /* ====== Using Fixed Positions ====== */
+        /*
         body {
             margin: 0;
             position: fixed;
@@ -71,6 +95,39 @@
             height: 3em;
             z-index: 300;
         }
+        */
+        /* ====== Using CSS Grid ====== */
+        html, body {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        body {
+            margin: 0;
+            display: grid;
+            grid-template-rows: auto 3em;
+            overflow: hidden;
+        }
+
+        #GameViewport {
+            overflow: auto;
+            display: grid;
+            grid-template-rows: 2880px;
+            grid-template-columns: 2880px;
+        }
+
+        #GameViewport > * {
+            grid-row: 1 / 1;
+            grid-column: 1 /1 ;
+        }
+
+        #ChatViewport {
+            z-index: 300;
+            bottom: 0;
+        }
 
         #ChatInputElements {
             height: 3em;
@@ -82,30 +139,49 @@
             border: 0;
         }
 
-        .absolute0 {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .wrap {
-            margin: auto;
+        /* ====== Background Map Blocks ====== */
+        #VisualMap {
             display: grid;
             grid-template-rows: repeat(3, 960px);
-            grid-template-columns: repeat(3, 960px);
-            background: rgba(0,0,0,0);
         }
 
-        #WrapLayer0 {
+        .row {
+            display: grid;
+            grid-template-columns: repeat(3, 960px);
+        }
+
+        .block {
+            display: grid;
+            grid-template-columns: 960px;
+        }
+
+        .lay0 {
+            grid-row: 1 / 1;
+            grid-column: 1 / 1;
             z-index: 10;
+        }
+
+        .lay1 {
+            grid-row: 1 / 1;
+            grid-column: 1 / 1;
+            z-index: 30;
+        }
+
+        /* ====== Players and Chat Text ====== */
+        #WrapPlayerLayer {
+            position: relative;
+        }
+
+        #WrapChat {
+            position: relative;
         }
 
         .target {
             background: rgba(0,0,255,0.5);
-            position: absolute;
             z-index: 21;
             top: -64px;
             left: -64px;
+            position: absolute;
         }
 
         .player {
@@ -121,33 +197,18 @@
             width: 66ch;
             max-width: 66ch;
             font-weight: bold;
-            position: absolute;
             text-align: center;
             color: white;
             text-shadow: 1px 1px 2px black;
             user-select: none;
-        }
-
-        #WrapPlayerLayer {
-            z-index: 20;
-        }
-
-        #WrapLayer1 {
-            z-index: 30;
+            position: absolute;
         }
 
         #Overlay {
             z-index: 100;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2880px;
-            height: 2880px;
         }
 
-        #ChatBar {
-        }
-
+        /* === Chat Input Interface === */
         #ChatBar:focus {
             background: lightblue;
         }

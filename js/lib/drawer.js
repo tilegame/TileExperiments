@@ -15,11 +15,20 @@ game.drawer = {
 
     init() {
 
+        // The element that holds the map-related canvases 
+        const WRAP = document.querySelector(`#VisualMap`)
+
         // Number of Layers to save as MapBlocks 
-        let NUM_LAYERS = 2
+        const NUM_LAYERS = 2
+
+        // Number of Rows per Layer 
+        const NUM_ROWS = 3
+
+        // Number of Columns per Row 
+        const NUM_COLS = 3
 
         // Number of blocks per layer.
-        let NUM_BLOCKS = 9
+        const NUM_BLOCKS = 9
 
         // Calculate the side length of a MapBlock, in units of TILES.
         let TILES_PER_BLOCK = Math.floor(game.BLOCK_SIZE / game.TILE_SIZE)
@@ -29,33 +38,35 @@ game.drawer = {
         // and calculate the tiles they hold.
         this.blocklist = []
 
-        for (let i = 0; i < NUM_BLOCKS; i++) {
+        for (let row = 0; row < NUM_ROWS; row++) {
+            for (let col = 0; col < NUM_COLS; col++) {
 
-            // The starting positions are defined in a special way 
-            // because of the placement of the blocks (3 columns).
-            // this will change when the positioning changes. 
-            let tx0 = TILES_PER_BLOCK * (i % 3)
-            let ty0 = TILES_PER_BLOCK * Math.floor(i / 3)
+                // The starting positions are defined in a special way 
+                // because of the placement of the blocks (3 columns).
+                // this will change when the positioning changes. 
+                let tx0 = col * TILES_PER_BLOCK
+                let ty0 = row * TILES_PER_BLOCK
 
-            // Width and Height of the mapblock will be the same,
-            // since the MapBlocks are squares. 
-            let tw = TILES_PER_BLOCK
-            let th = TILES_PER_BLOCK
+                // Width and Height of the mapblock will be the same,
+                // since the MapBlocks are squares. 
+                let tw = TILES_PER_BLOCK
+                let th = TILES_PER_BLOCK
 
-            // Add the canvas list (each of the layers).
-            let canvasList = []
+                // Add the canvas list (each of the layers).
+                let canvasList = []
 
-            // Iterate through the layers to retrieve the canvas elements.
-            for (let layer = 0; layer < NUM_LAYERS; layer++) {
-                let selector = `#WrapLayer${layer} > canvas.block${i}`
-                let canvas = document.querySelector(selector)
-                canvasList.push(canvas)
+                // Get the div element that holds the canvases
+                let blockElement = WRAP.children[row].children[col]
+
+                // Iterate through the layers to retrieve the canvas elements.
+                for (let layer = 0; layer < NUM_LAYERS; layer++) {
+                    canvasList.push(blockElement.children[layer])
+                }
+
+                // Create the MapBlock and add it to the blocklist. 
+                let block = new game.classes.MapBlock(canvasList,tx0,ty0,tw,th)
+                this.blocklist.push(block)
             }
-
-            // Create the MapBlock and add it to the blocklist. 
-            let block = new game.classes.MapBlock(canvasList,tx0,ty0,tw,th)
-            this.blocklist.push(block)
-
         }
 
     },

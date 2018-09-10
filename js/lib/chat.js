@@ -28,8 +28,8 @@
         // that keeps the text centered at that tile.
         setPos(tx, ty) {
             let {x, y} = game.camera.getTileCenterCoords(tx, ty)
-            x += game.TILE_SIZE / 2
-            //y -= game.TILE_SIZE
+            //x += game.TILE_SIZE / 2
+            y -= game.TILE_SIZE / 2
             this.element.style.top = `calc(${y}px - 1em`
             this.element.style.left = `calc(${x}px - 33ch)`
         }
@@ -71,7 +71,7 @@
         let l = []
         let i = 0
         for (let name of game.player.list.keys()) {
-            i++ 
+            i++
             if (i < examples.length) {
                 ws('chat', name, examples[i])
             }
