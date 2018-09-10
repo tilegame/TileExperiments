@@ -11,34 +11,36 @@
 //      shelves of drawing functions.
 // }
 
-game.drawer = {
+// TODO: Rename/Move this file to game.graphics.mapblock
 
-    init() {
+{
+    // Create a blocklist, which holds all of the mapblocks.
+    // add references to the relevent canvases,
+    // and calculate the tiles they hold.
+    let blocklist = []
 
-        // The element that holds the map-related canvases 
-        const WRAP = document.querySelector(`#VisualMap`)
+    // The element that holds the map-related canvases 
+    const WRAP = document.querySelector(`#VisualMap`)
 
-        // Number of Layers to save as MapBlocks 
-        const NUM_LAYERS = 2
+    const NUM_ROWS = 3
+    // rows of mapblocks in visual map
+    const NUM_COLS = 3
+    // columns of mapblocks in visual map.
+    const NUM_LAYERS = 2
+    // layers per mapblock 
 
-        // Number of Rows per Layer 
-        const NUM_ROWS = 3
+    // Calculate the side length of a MapBlock, in units of TILES.
+    let TILES_PER_BLOCK = Math.floor(game.BLOCK_SIZE / game.TILE_SIZE)
 
-        // Number of Columns per Row 
-        const NUM_COLS = 3
+    function init() {
 
-        // Number of blocks per layer.
-        const NUM_BLOCKS = 9
-
-        // Calculate the side length of a MapBlock, in units of TILES.
-        let TILES_PER_BLOCK = Math.floor(game.BLOCK_SIZE / game.TILE_SIZE)
-
-        // Create a blocklist, which holds all of the mapblocks.
-        // add references to the relevent canvases,
-        // and calculate the tiles they hold.
-        this.blocklist = []
+        // Width and Height of the mapblock will be the same,
+        // since the MapBlocks are squares. 
+        let tw = TILES_PER_BLOCK
+        let th = TILES_PER_BLOCK
 
         for (let row = 0; row < NUM_ROWS; row++) {
+
             for (let col = 0; col < NUM_COLS; col++) {
 
                 // The starting positions are defined in a special way 
@@ -46,11 +48,6 @@ game.drawer = {
                 // this will change when the positioning changes. 
                 let tx0 = col * TILES_PER_BLOCK
                 let ty0 = row * TILES_PER_BLOCK
-
-                // Width and Height of the mapblock will be the same,
-                // since the MapBlocks are squares. 
-                let tw = TILES_PER_BLOCK
-                let th = TILES_PER_BLOCK
 
                 // Add the canvas list (each of the layers).
                 let canvasList = []
@@ -65,30 +62,102 @@ game.drawer = {
 
                 // Create the MapBlock and add it to the blocklist. 
                 let block = new game.classes.MapBlock(canvasList,tx0,ty0,tw,th)
-                this.blocklist.push(block)
+                blocklist.push(block)
             }
         }
+    }
 
-    },
+    // Retrieves the MapBlock element based on the position.
+    function GetMapBlockElement(col, row) {
+        let ROW = WRAP.getElementsByClassName('row')[row]
+        return ROW.getElementsByClassName('block')[col]
+    }
 
     // DrawMap() is called by the fetcher!
     // TODO: split data, For each BLOCK, draw that portion of the map.
-    DrawMap() {
-        for (let mapblock of this.blocklist) {
+    function DrawMap() {
+        for (let mapblock of blocklist) {
             mapblock.FullDraw()
         }
-    },
+    }
 
+    // calc Next First Tile is a helper function to determine what
+    // the new "FirstTile" of the visual screen is 'logically'.
+    // 
+    // factorX, factorY should be -1, 0, or 1
+    //
+    // In the future, this can become more sophisicated, and include
+    // things like checks for world boundary limits.
+    //
+    function calcNextFirstTile(factorX, factorY) {
+        let {x: X, y: Y} = game.camera.FirstTile
+        X += factorX * TILES_PER_BLOCK
+        Y += factorY * TILES_PER_BLOCK
+        return {
+            X,
+            Y
+        }
+    }
+
+    // This is basically just an extention of the calcNextFirstTile
+    // function, but it actually changes the FirstTile.
+    function updateFirstTileByFactor(factorX, factorY) {
+        let {X, Y} = calcNextFirstTile(factorX, factorY)
+        game.camera.setFirstTile(X, Y)
+    }
+
+    function ShiftDown() {
+
+        // scroll to keep the same tile in view.
+        let v = document.querySelector('#GameViewport')
+        savedView = v.scrollTop
+
+        // move the DOM elements around.
+        row0 = WRAP.getElementsByClassName('row')[0]
+        WRAP.appendChild(row0)
+
+        // update the camera variables
+        updateFirstTileByFactor(0, 1)
+
+        // Redraw players and stuff.
+        game.player.DrawAll()
+
+        v.scrollTop = savedView - game.BLOCK_SIZE
+
+    }
+
+    function ShiftUp() {
+        calcNextFirstTile(0, -1)
+    }
+
+    function ShiftLeft() {
+        calcNextFirstTile(-1, 0)
+
+    }
+
+    function ShiftRight() {
+        calcNextFirstTile(1, 0)
+    }
+
+    game.drawer = {
+        init,
+        blocklist,
+        DrawMap,
+        GetMapBlockElement,
+        ShiftDown,
+        ShiftUp,
+        ShiftLeft,
+        ShiftRight,
+        TILES_PER_BLOCK,
+    }
 }
 
-// TODO: 
-// make class definitions file/folder, and run it BEFORE
-// initializing the "libs"
-
-// The MapBlock class will be added to game.defs, but will mainly be
-// used by the game.drawer and game.camera functions.
+// ================================================
+// Class MapBlock  
+// ------------------------------------------------
 {
-
+    // The MapBlock class will be added to game.defs, but will mainly be
+    // used by the game.drawer and game.camera functions.
     class MapBlock {
         constructor(canvasList, tx0, ty0, tw, th) {
 
@@ -113,7 +182,6 @@ game.drawer = {
             this.th = th
             this.txf = tx0 + tw
             this.tyf = ty0 + th
-
         }
 
         Clear() {
@@ -139,8 +207,6 @@ game.drawer = {
                 }
             }
         }
-
     }
-
     game.classes.MapBlock = MapBlock
 }

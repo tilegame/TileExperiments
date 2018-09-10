@@ -24,11 +24,15 @@
 
         // offset pixel position of target tile's upper-left corner.
         // used for adding the target canvas.
-        let left = x - (x % game.TILE_SIZE)
-        let top = y - (y % game.TILE_SIZE)
-        clickbox.style.top = top + 'px'
-        clickbox.style.left = left + 'px'
-
+        //
+        // TODO: this should just update targetbox location and redraw it.
+        //
+        {
+            let left = x - (x % game.TILE_SIZE)
+            let top = y - (y % game.TILE_SIZE)
+            clickbox.style.top = top + 'px'
+            clickbox.style.left = left + 'px'
+        }
         // The Tile(x,y) relative to the first tile on the board.
         let OffsetTileX = Math.floor(x / game.TILE_SIZE)
         let OffsetTileY = Math.floor(y / game.TILE_SIZE)

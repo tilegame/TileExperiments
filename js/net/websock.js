@@ -67,7 +67,7 @@
 
     // Set the Alias variable 'ws' to it function.
     ws = (string,...params)=>game.net.ws.send(string, ...params)
-    wsreset = ()=>{        
+    wsreset = ()=>{
         game.net.ws.conn.addEventListener('close', function() {
             game.net.StartLocal()
         })
@@ -162,7 +162,6 @@
 
     game.net.HandleMessage = HandleIncomingMessage
 }
-
 
 // ================================================
 // Sending chat messages with Chat Form.

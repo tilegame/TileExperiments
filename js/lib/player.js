@@ -1,9 +1,9 @@
 // ================================================
-// Player
+// game.player 
 // ------------------------------------------------
 
-game.player = {
-    init() {
+{
+    function init() {
         // game.player.list is the client's local playerlist.
         this.list = new Map()
 
@@ -17,11 +17,11 @@ game.player = {
             return game.player.list.get(game.MY_USER)
         }
 
-    },
+    }
 
     // UpdateList refreshes the playerlist and replaces it with
     // the list provided by the server.
-    UpdateList(result) {
+    function UpdateList(result) {
         this.active.clear()
         for (let[name,p] of Object.entries(result)) {
 
@@ -47,11 +47,11 @@ game.player = {
             this.active.add(name)
         }
         this.Refresh()
-    },
+    }
 
     // check for any names that are no longer active.  Remove them
     // so they don't continue to appear on the screen.
-    Refresh() {
+    function Refresh() {
         for (let name of this.list.keys()) {
             if (this.active.has(name)) {
                 this.active.delete(name)
@@ -63,7 +63,37 @@ game.player = {
             }
         }
     }
+
+    // Draws all players based on their current positions.
+    function DrawAll() {
+        for ([name,p] of this.list) {
+            p.Draw()
+        }
+        DrawTargetBox()
+    }
+
+    let targetbox = document.querySelector('#myclickbox')
+
+    function DrawTargetBox() {
+        let {X, Y} = game.player.me().TargetPos
+        let {top, left} = game.camera.getTileTopLeft(X, Y)
+        targetbox.style.top = top + 'px'
+        targetbox.style.left = left + 'px'
+    }
+
+    game.player = {
+        init,
+        UpdateList,
+        Refresh,
+        DrawAll,
+        DrawTargetBox,
+    }
+
 }
+
+// ================================================
+// Class Player
+// ------------------------------------------------
 
 {
     class Player {
