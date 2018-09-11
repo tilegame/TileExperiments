@@ -111,6 +111,9 @@ game.fetcher = {
         game.TileMatrix = matrix
         // Helper function for retrieving map tiles.
         game.GetMapTile = (tx,ty)=>{
+            if ((tx >= w) || (ty >= h)) {
+                return undefined
+            }
             return game.TileMatrix[ty][tx]
         }
     },
