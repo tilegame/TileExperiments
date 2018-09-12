@@ -5,9 +5,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:init": "babel src/init.js --out-file lib/init.js --presets=@babel/env",
-    "build:stuff": "babel src --out-file lib/game.js --source-maps --presets=@babel/env",
-    "build:main": "babel src/main.js --out-file lib/main.js --presets=@babel/env"
+    "build": "babel src --out-file lib/game.js --source-maps --presets=@babel/env"
   },
   "repository": {
     "type": "git",
