@@ -97,22 +97,24 @@
         }
         */
         /* ====== Using CSS Grid ====== */
-        html, body {
+/*         body {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-        }
-
-        body {
             margin: 0;
             display: grid;
             grid-template-rows: auto 3em;
             overflow: hidden;
-        }
+        } */
 
         #GameViewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 3em;
             overflow: auto;
             display: grid;
             grid-template-rows: 2880px;
@@ -125,8 +127,12 @@
         }
 
         #ChatViewport {
+            width: 100%;
             z-index: 300;
-            bottom: 0;
+            position: fixed;
+            bottom:0;
+            left:0;
+            right:0;
         }
 
         #ChatInputElements {
@@ -209,17 +215,26 @@
         }
 
         /* === Chat Input Interface === */
+        input[type='submit'] {
+            appearance: none;
+            -webkit-appearance: none;
+        }
         #ChatBar:focus {
             background: lightblue;
         }
-
+        #SendChat {
+            border: 1px solid black;
+            padding: 0;
+            margin: 1px;
+            height: calc(100% - 2px);
+        }
         #SendChat:active {
             background: pink;
         }
     </style>
-    <script src="js/init.js"></script>
-    <script src="js/toolkit/elements.js"></script>
-    <script src="js/net/websock.js"></script>
+    <script src="js/lib/init.js"></script>
+    <script src="js/lib/toolkit/elements.js"></script>
+    <script src="js/lib/net/websock.js"></script>
     <script src="js/lib/drawer.js"></script>
     <script src="js/lib/tiles.js"></script>
     <script src="js/lib/player.js"></script>
@@ -228,5 +243,5 @@
     <script src="js/lib/fetcher.js"></script>
     <script src="js/lib/interact.js"></script>
     <script src="js/lib/chat.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/lib/main.js"></script>
 </html>
