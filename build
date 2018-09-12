@@ -1,0 +1,3 @@
+npm run build:init
+npm run build:stuff
+npm run build:main

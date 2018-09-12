@@ -1,0 +1,27 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "frontend web interface for the game.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:init": "babel src/init.js --out-file lib/init.js --presets=@babel/env",
+    "build:stuff": "babel src --out-file lib/game.js --source-maps --presets=@babel/env",
+    "build:main": "babel src/main.js --out-file lib/main.js --presets=@babel/env"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fractalbach/TileExperiments.git"
+  },
+  "author": "fractalbach",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fractalbach/TileExperiments/issues"
+  },
+  "homepage": "https://github.com/fractalbach/TileExperiments#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.1"
+  },
+  "dependencies": {}
+}
