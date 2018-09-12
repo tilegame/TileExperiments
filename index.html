@@ -1,35 +1,232 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Tilemap Test</title>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tilemap Test</title>
+        <link rel="prefetch" href="img/tiles.png" type="image/png">
+        <link rel="prefetch" href="tools/hundred.json" type="application/json">
+        <link rel="manifest" href="manifest.json"/>
+    </head>
+    <body>
+        <div id="GameViewport">
+            <div id="VisualMap">
+                <div class="row">
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                    <div class="block">
+                        <canvas class="lay0" width="960" height="960"></canvas>
+                        <canvas class="lay1" width="960" height="960"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div id="WrapPlayerLayer">
+                <canvas id="myclickbox" class="target" width="64" height="64"></canvas>
+            </div>
+            <div id="WrapChat"></div>
+            <div id="Overlay"></div>
+        </div>
+        <div id="ChatViewport">
+            <form id="ChatInputForm">
+                <div id="ChatInputElements">
+                    <input id="ChatBar" type="text" placeholder="Say something!" autocomplete="off" size="66"></input>
+                    <input id="SendChat" type="submit" value="Send"></input>
+                </div>
+            </form>
+        </div>
+    </body>
+    <style>
+        /* ====== Using Fixed Positions ====== */
+        /*
+        body {
+            margin: 0;
+            position: fixed;
+            height overflow: auto;
+        }
 
-<body>
-<div id="ScreenPort">
-<div id="CanvasWrap">
-<canvas id="GameCanvas" width="1000" height="1000"></canvas>
-</div>
-</div>
-</body>
+        #GameViewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 3em;
+            overflow: auto;
+        }
 
-<style>
-#GameCanvas {
-	background: #eee;
-}
-#CanvasWrap {
-	margin: 0 auto;
-	max-width: 1000px;
-}
-#ScreenPort {
-	background: #000;
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	overflow: none;
-}
-</style>
+        #ChatViewport {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 3em;
+            z-index: 300;
+        }
+        */
+        /* ====== Using CSS Grid ====== */
+        html, body {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
 
-<script src="js/main.js"></script>
+        body {
+            margin: 0;
+            display: grid;
+            grid-template-rows: auto 3em;
+            overflow: hidden;
+        }
+
+        #GameViewport {
+            overflow: auto;
+            display: grid;
+            grid-template-rows: 2880px;
+            grid-template-columns: 2880px;
+        }
+
+        #GameViewport > * {
+            grid-row: 1 / 1;
+            grid-column: 1 /1 ;
+        }
+
+        #ChatViewport {
+            z-index: 300;
+            bottom: 0;
+        }
+
+        #ChatInputElements {
+            height: 3em;
+            display: grid;
+            grid-template-columns: 85% auto;
+        }
+
+        canvas {
+            border: 0;
+        }
+
+        /* ====== Background Map Blocks ====== */
+        #VisualMap {
+            display: grid;
+            grid-template-rows: repeat(3, 960px);
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(3, 960px);
+        }
+
+        .block {
+            display: grid;
+            grid-template-columns: 960px;
+        }
+
+        .lay0 {
+            grid-row: 1 / 1;
+            grid-column: 1 / 1;
+            z-index: 10;
+        }
+
+        .lay1 {
+            grid-row: 1 / 1;
+            grid-column: 1 / 1;
+            z-index: 30;
+        }
+
+        /* ====== Players and Chat Text ====== */
+        #WrapPlayerLayer {
+            position: relative;
+        }
+
+        #WrapChat {
+            position: relative;
+        }
+
+        .target {
+            background: rgba(0,0,255,0.5);
+            z-index: 21;
+            top: -64px;
+            left: -64px;
+            position: absolute;
+        }
+
+        .player {
+            z-index: 22;
+            background: rgba(255,0,0,0.5);
+            position: absolute;
+        }
+
+        .chatbox {
+            z-index: 31;
+            /* font-family: monospace; */
+            font-size: 1em;
+            width: 66ch;
+            max-width: 66ch;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+            user-select: none;
+            position: absolute;
+        }
+
+        #Overlay {
+            z-index: 100;
+        }
+
+        /* === Chat Input Interface === */
+        #ChatBar:focus {
+            background: lightblue;
+        }
+
+        #SendChat:active {
+            background: pink;
+        }
+    </style>
+    <script src="js/init.js"></script>
+    <script src="js/toolkit/elements.js"></script>
+    <script src="js/net/websock.js"></script>
+    <script src="js/lib/drawer.js"></script>
+    <script src="js/lib/tiles.js"></script>
+    <script src="js/lib/player.js"></script>
+    <script src="js/lib/camera.js"></script>
+    <script src="js/lib/debug.js"></script>
+    <script src="js/lib/fetcher.js"></script>
+    <script src="js/lib/interact.js"></script>
+    <script src="js/lib/chat.js"></script>
+    <script src="js/main.js"></script>
 </html>
