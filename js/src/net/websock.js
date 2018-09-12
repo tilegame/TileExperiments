@@ -170,7 +170,7 @@
     let chatbar = document.querySelector('#ChatBar')
     let chatform = document.querySelector('#ChatInputForm')
 
-    function submitChat() {
+    function submitChat(event) {
         if (!chatbar.value) {
             return false
         }
@@ -179,6 +179,7 @@
         }
         ws('chat', game.MY_USER, chatbar.value)
         chatbar.value = ""
+        chatbar.blur()
         return false
     }
 

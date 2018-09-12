@@ -110,6 +110,7 @@
         } */
 
         #GameViewport {
+            z-index: -1;
             position: fixed;
             top: 0;
             left: 0;
@@ -122,13 +123,12 @@
         }
 
         #GameViewport > * {
+            z-index: unset;
             grid-row: 1 / 1;
             grid-column: 1 /1 ;
         }
 
         #ChatViewport {
-            width: 100%;
-            z-index: 300;
             position: fixed;
             bottom:0;
             left:0;
@@ -171,6 +171,7 @@
             grid-row: 1 / 1;
             grid-column: 1 / 1;
             z-index: 30;
+            -webkit-transform: translate3d(0,0,0);
         }
 
         /* ====== Players and Chat Text ====== */
@@ -197,7 +198,8 @@
         }
 
         .chatbox {
-            z-index: 31;
+            z-index: 40;
+            -webkit-transform: translate3d(0,0,0);
             /* font-family: monospace; */
             font-size: 1em;
             width: 66ch;
@@ -223,6 +225,7 @@
             background: lightblue;
         }
         #SendChat {
+            background: #FFF;
             border: 1px solid black;
             padding: 0;
             margin: 1px;

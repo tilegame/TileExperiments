@@ -206,7 +206,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // ------------------------------------------------
 
 {
-  var submitChat = function submitChat() {
+  var submitChat = function submitChat(event) {
     if (!chatbar.value) {
       return false;
     }
@@ -217,6 +217,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     ws('chat', game.MY_USER, chatbar.value);
     chatbar.value = "";
+    chatbar.blur();
     return false;
   };
 
