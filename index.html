@@ -109,6 +109,10 @@
             overflow: hidden;
         } */
 
+        html, body {
+            max-width: 2880px;
+        }
+
         #GameViewport {
             z-index: -1;
             position: fixed;
@@ -120,12 +124,14 @@
             display: grid;
             grid-template-rows: 2880px;
             grid-template-columns: 2880px;
+            max-width: 2880px;
         }
 
         #GameViewport > * {
             z-index: unset;
             grid-row: 1 / 1;
-            grid-column: 1 /1 ;
+            grid-column: 1 /1;
+            max-width: 2880px;
         }
 
         #ChatViewport {
@@ -181,6 +187,7 @@
 
         #WrapChat {
             position: relative;
+            overflow: hidden;
         }
 
         .target {
@@ -235,6 +242,8 @@
             background: pink;
         }
     </style>
+    <script src="lib/game.js"></script>
+    <!--
     <script src="js/lib/init.js"></script>
     <script src="js/lib/toolkit/elements.js"></script>
     <script src="js/lib/net/websock.js"></script>
@@ -247,4 +256,6 @@
     <script src="js/lib/interact.js"></script>
     <script src="js/lib/chat.js"></script>
     <script src="js/lib/main.js"></script>
+    !-->
+    
 </html>
