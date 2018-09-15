@@ -93,12 +93,12 @@
     // getValues returns [x0, y0] pixel location of the relevent cat sprite,
     // based on .
     function getValues(direction, action, part) {
-        val = ANIMATIONS[getName(direction, action, part)]
+        let val = ANIMATIONS[getName(direction, action, part)]
         if (val == undefined) {
             throw new Error(`Invalid animation.`)
         }
-        x = val[0] * SPOT_SIZE
-        y = val[1] * SPOT_SIZE
+        let x = val[0] * SPOT_SIZE
+        let y = val[1] * SPOT_SIZE
         return [x, y]
     }
 
