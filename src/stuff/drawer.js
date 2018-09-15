@@ -70,7 +70,7 @@
                 blocklist.push(block)
 
                 // Add the MapBlock to the GridOfMapBlocks
-                game.drawer.GridOfMapBlocks.Add(row,col,block)
+                game.drawer.GridOfMapBlocks.Add(row, col, block)
             }
         }
     }
@@ -135,7 +135,7 @@
         // Redefine the mapblock and redraw it.
         //
         let arr = game.drawer.GridOfMapBlocks.ShiftDown()
-        let newY = 2*TILES_PER_BLOCK + game.camera.FirstTile.Y
+        let newY = 2 * TILES_PER_BLOCK + game.camera.FirstTile.Y
         for (i of arr.keys()) {
             arr[i].RedefineAndDraw(arr[i].tx0, newY)
         }
@@ -263,7 +263,7 @@
     }
 
     function Add(A, B, thing) {
-        m[A][B] = thing 
+        m[A][B] = thing
     }
 
     function SwapRows(A, B) {

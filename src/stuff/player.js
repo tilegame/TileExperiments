@@ -3,34 +3,35 @@
 // ------------------------------------------------
 
 {
-    function init() {
-        // game.player.list is the client's local playerlist.
-        this.list = new Map()
+    function init() {}
 
-        // activeset is used to detect when players have left the area.
-        // when a FullPlayerList message is received, this activelist
-        // gets filled with the player names.  Then, Refresh() is called
-        // to remove any players that aren't in this activelist.
-        this.active = new Set()
+    // playermap contains the map: (username -> Player)
+    // Username is a string.
+    // Player is a "Class Player" object. 
+    let playermap = new Map()
 
-        this.me = function() {
-            return game.player.list.get(game.MY_USER)
-        }
+    // activeset is used to detect when players have left the area.
+    // when a FullPlayerList message is received, this activelist
+    // gets filled with the player names.  Then, Refresh() is called
+    // to remove any players that aren't in this activelist.
+    let activeset = new Set()
 
+    function me() {
+        return game.player.playermap.get(game.MY_USER)
     }
 
     // UpdateList refreshes the playerlist and replaces it with
     // the list provided by the server.
     function UpdateList(result) {
-        this.active.clear()
+        activeset.clear()
         for (let[name,p] of Object.entries(result)) {
 
             // Create a new player object if it hasn't been added yet.
-            if (!this.list.has(name)) {
-                this.list.set(name, game.classes.Player.New(name))
+            if (!playermap.has(name)) {
+                playermap.set(name, game.classes.Player.New(name))
             }
             // Retrieve the player object.
-            let play = this.list.get(name)
+            let play = playermap.get(name)
 
             // Update the position values
             {
@@ -44,7 +45,7 @@
             play.Draw()
 
             // Add the name to the Active set so we don't delete it.
-            this.active.add(name)
+            activeset.add(name)
         }
         this.Refresh()
     }
@@ -52,13 +53,13 @@
     // check for any names that are no longer active.  Remove them
     // so they don't continue to appear on the screen.
     function Refresh() {
-        for (let name of this.list.keys()) {
-            if (this.active.has(name)) {
-                this.active.delete(name)
+        for (let name of playermap.keys()) {
+            if (activeset.has(name)) {
+                activeset.delete(name)
             } else {
-                this.list.get(name).canvas.remove()
-                this.list.get(name).chatbox.remove()
-                this.list.delete(name)
+                playermap.get(name).canvas.remove()
+                playermap.get(name).chatbox.remove()
+                playermap.delete(name)
 
             }
         }
@@ -66,7 +67,7 @@
 
     // Draws all players based on their current positions.
     function DrawAll() {
-        for ([name,p] of this.list) {
+        for ([name,p] of playermap) {
             p.Draw()
         }
         DrawTargetBox()
@@ -74,14 +75,36 @@
 
     let targetbox = document.querySelector('#myclickbox')
 
+    // Draws a square to indicate the destination of the client's 
+    // main chracter.  If the target is, for any reason, off the 
+    // visable map, then it won't be drawn. 
     function DrawTargetBox() {
         let {X, Y} = game.player.me().TargetPos
+        let {X: PX, Y: PY} = game.player.me().CurrentPos
+
+        // If the player is standing on the targetbox, there is 
+        // no need to display it.
+        if ((PX == X) && (PY == Y)) {
+            targetbox.style.setProperty('display', 'none')
+            return
+        }
+
+        // If the tile is not visible, make the targetbox 
+        // invisible. 
+        if (!game.camera.isTileVisible(X, Y)) {
+            targetbox.style.setProperty('display', 'none')
+            return
+        }
+
         let {top, left} = game.camera.getTileTopLeft(X, Y)
         targetbox.style.top = top + 'px'
         targetbox.style.left = left + 'px'
+        targetbox.style.setProperty('display', '')
     }
 
     game.player = {
+        me, 
+        playermap,
         init,
         UpdateList,
         Refresh,
@@ -134,7 +157,7 @@
             let p = new Player(canvas,name)
 
             // Add to the player list.
-            game.player.list.set(name, p)
+            game.player.playermap.set(name, p)
 
             // Return a reference to the newly created player.
             return p
@@ -160,11 +183,18 @@
 
         // Draw doesn't actually re-draw, but it updates it's location
         // in the CSS, which effectively redraws it.
+        // Hides the player if they aren't on the map. 
         Draw() {
             let {X, Y} = this.CurrentPos
+            if (!game.camera.isTileVisible(X, Y)) {
+                this.canvas.style.setProperty('display', 'none')
+                return
+            }
+
             let {top, left} = game.camera.getTileTopLeft(X, Y)
             this.canvas.style.setProperty('top', `${top}px`)
             this.canvas.style.setProperty('left', `${left}px`)
+            this.canvas.style.setProperty('display', '')
         }
 
         // Player.scrollTo centers the camera on the tile that the 

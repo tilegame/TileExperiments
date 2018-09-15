@@ -34,7 +34,9 @@ in time, and generates iterators for use by the Renderer.
         FirstTile.Y = Y
     }
 
-    // Get Boundaries, based on the FirstTile position. 
+    // Get Boundaries, based on the FirstTile position.
+    // functions should be used instead of accessing 
+    // the FirstTile object directly
     function getMinX() {
         return FirstTile.X
     }
@@ -53,28 +55,6 @@ in time, and generates iterators for use by the Renderer.
     // scrollTo command.  Originally, this was just the window,
     // but as the HTML structure changes, this element might change.
     let ScrollableViewport = document.querySelector('#GameViewport')
-
-    // Rectangle Bounds. camera position.
-    //     function UpdateBounds() {
-    //         this.x0 = position.x - VIEW_RADIUS
-    //         this.xf = position.x + VIEW_RADIUS
-    //         this.y0 = position.y - VIEW_RADIUS
-    //         this.yf = position.y + VIEW_RADIUS
-    //     }
-
-    // VisibleTiles Generates an Iterator of TileLocations.
-    // Later on, this function will accept parameters that define the
-    // shape of the visual area (for example, a Circle instead of a Rectangle).
-    //     function *VisibleTiles() {
-    //         for (let x = this.x0; x < this.xf; x++) {
-    //             for (let y = this.y0; y < this.yf; y++) {
-    //                 yield({
-    //                     x,
-    //                     y
-    //                 })
-    //             }
-    //         }
-    //     }
 
     // Scrolls such that the absolute center tile is displayed in the center 
     // of the screen.
@@ -114,6 +94,12 @@ in time, and generates iterators for use by the Renderer.
         }
     }
 
+    // Checks the boundaries of the camera to check if the 
+    // tile is within those boundaries.
+    function isTileVisible(X, Y) {
+        return ((X > getMinX()) && (X < getMaxX()) && (Y > getMinY()) && (Y < getMaxY()))
+    }
+
     function init() {}
 
     game.camera = {
@@ -128,5 +114,6 @@ in time, and generates iterators for use by the Renderer.
         getTileCenterCoords,
         getTileTopLeft,
         ScrollableViewport,
+        isTileVisible,
     }
 }

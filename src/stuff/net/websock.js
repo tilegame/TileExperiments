@@ -140,7 +140,6 @@
 
     function handlePlayerList(message) {
         game.player.UpdateList(message.result)
-
     }
 
     function handleUpdateTargets(message) {
@@ -154,7 +153,7 @@
         let {User, Message} = message.result
 
         // use setText for lasting messages (until you logout).
-        game.player.list.get(User).chatbox.setText(Message)
+        game.player.playermap.get(User).chatbox.setText(Message)
 
         // use doMessage for self-clearing messages.
         // game.player.list.get(User).chatbox.doMessage(Message)
