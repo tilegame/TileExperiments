@@ -1,1 +1,1 @@
-npm run build
+babel src --out-file lib/game.js --source-maps --presets=@babel/env,minify
