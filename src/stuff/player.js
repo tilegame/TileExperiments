@@ -162,17 +162,9 @@
         // in the CSS, which effectively redraws it.
         Draw() {
             let {X, Y} = this.CurrentPos
-            let top = game.TILE_SIZE * (Y - game.camera.FirstTile.y)
-            let left = game.TILE_SIZE * (X - game.camera.FirstTile.x)
+            let {top, left} = game.camera.getTileTopLeft(X, Y)
             this.canvas.style.setProperty('top', `${top}px`)
             this.canvas.style.setProperty('left', `${left}px`)
-        }
-
-        // moveTo sets the target position of the player, and sends a 
-        // websocket message to the server, informing the server that
-        // the player wants to move.
-        moveTo(tx, ty) {
-            ws('move', this.name, tx, ty)
         }
 
         // Player.scrollTo centers the camera on the tile that the 

@@ -5,9 +5,6 @@
 // document.styleSheets[0].cssRules[0]
 
 {
-    // stores the mapping of (username -> chatmessage)
-    let _chatmap = new Map()
-
     // Creates a new chatbox. It's message can be changed later.
     class ChatBox {
         constructor() {
@@ -22,13 +19,25 @@
 
             // Start off the chat timebomb (which clears the chat)
             this.timebomb()
+
+            // Current Position of the ChatBox
+            this.CurrentPos = {
+                X: -1,
+                Y: -1,
+            }
         }
 
         // setPos places the div element containing the text at a location
         // that keeps the text centered at that tile.
         setPos(tx, ty) {
-            let {x, y} = game.camera.getTileCenterCoords(tx, ty)
-            //x += game.TILE_SIZE / 2
+            this.CurrentPos.X = tx
+            this.CurrentPos.Y = ty
+            this.draw()
+        }
+
+        draw() {
+            let {X, Y} = this.CurrentPos
+            let {x, y} = game.camera.getTileCenterCoords(X, Y)
             y -= game.TILE_SIZE / 2
             this.element.style.top = `calc(${y}px - 1em`
             this.element.style.left = `calc(${x}px - 33ch)`

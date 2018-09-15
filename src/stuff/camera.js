@@ -25,15 +25,27 @@ in time, and generates iterators for use by the Renderer.
     // The TileLocation of the Tile that is currently at square (0,0).
     // This can be negative if the camera is near the edge of the map.
     let FirstTile = {
-        x: 0,
-        y: 0
+        X: 0,
+        Y: 0
     }
 
     function setFirstTile(X, Y) {
-        FirstTile = {
-            x: X,
-            y: Y,
-        }
+        FirstTile.X = X
+        FirstTile.Y = Y
+    }
+
+    // Get Boundaries, based on the FirstTile position. 
+    function getMinX() {
+        return FirstTile.X
+    }
+    function getMinY() {
+        return FirstTile.Y
+    }
+    function getMaxX() {
+        return FirstTile.X + game.VIEWPORT_TILE_WIDTH
+    }
+    function getMaxY() {
+        return FirstTile.Y + game.VIEWPORT_TILE_HEIGHT
     }
 
     // Scrollable Viewport Element
@@ -79,8 +91,8 @@ in time, and generates iterators for use by the Renderer.
     function scrollToTile(a, b) {
         let w = ScrollableViewport.clientWidth
         let h = ScrollableViewport.clientHeight
-        let x = (a - FirstTile.x) * game.TILE_SIZE - w / 2
-        let y = (b - FirstTile.y) * game.TILE_SIZE - h / 2
+        let x = (a - FirstTile.X) * game.TILE_SIZE - w / 2
+        let y = (b - FirstTile.Y) * game.TILE_SIZE - h / 2
         ScrollableViewport.scrollTo(x, y)
     }
 
@@ -88,8 +100,8 @@ in time, and generates iterators for use by the Renderer.
     // of the specified tile.
     function getTileCenterCoords(a, b) {
         return {
-            x: (a - FirstTile.x + 0.5) * game.TILE_SIZE,
-            y: (b - FirstTile.y + 0.5) * game.TILE_SIZE,
+            x: (a - FirstTile.X + 0.5) * game.TILE_SIZE,
+            y: (b - FirstTile.Y + 0.5) * game.TILE_SIZE,
         }
     }
 
@@ -97,18 +109,21 @@ in time, and generates iterators for use by the Renderer.
     // setting styles like "top" and "left"
     function getTileTopLeft(a, b) {
         return {
-            left: (a - FirstTile.x) * game.TILE_SIZE,
-            top: (b - FirstTile.y) * game.TILE_SIZE,
+            left: (a - FirstTile.X) * game.TILE_SIZE,
+            top: (b - FirstTile.Y) * game.TILE_SIZE,
         }
     }
 
-    function init() {
-    }
+    function init() {}
 
     game.camera = {
         init,
         FirstTile,
         setFirstTile,
+        getMinX,
+        getMinY,
+        getMaxX,
+        getMaxY,
         scrollToTile,
         getTileCenterCoords,
         getTileTopLeft,

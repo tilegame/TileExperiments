@@ -22,26 +22,21 @@
         let x = event.clientX - r.left
         let y = event.clientY - r.top
 
-        // offset pixel position of target tile's upper-left corner.
-        // used for adding the target canvas.
-        //
-        // TODO: this should just update targetbox location and redraw it.
-        //
-        {
-            let left = x - (x % game.TILE_SIZE)
-            let top = y - (y % game.TILE_SIZE)
-            clickbox.style.top = top + 'px'
-            clickbox.style.left = left + 'px'
-        }
         // The Tile(x,y) relative to the first tile on the board.
         let OffsetTileX = Math.floor(x / game.TILE_SIZE)
         let OffsetTileY = Math.floor(y / game.TILE_SIZE)
 
         // Calculate the actual tile.
-        let outx = game.camera.FirstTile.x + OffsetTileX
-        let outy = game.camera.FirstTile.y + OffsetTileY
+        let outx = game.camera.FirstTile.X + OffsetTileX
+        let outy = game.camera.FirstTile.Y + OffsetTileY
 
+        // Tell the server that you want to move.
         ws('move', game.MY_USER, outx, outy)
+
+        // Update the targetbox on the screen.
+        game.player.me().setTarget(outx, outy)
+        game.player.DrawTargetBox()
+
         // Debug Message
         // console.log(`you clicked on tile (${outx}, ${outy})`)
     }

@@ -98,7 +98,7 @@
     // things like checks for world boundary limits.
     //
     function calcNextFirstTile(factorX, factorY) {
-        let {x: X, y: Y} = game.camera.FirstTile
+        let {X, Y} = game.camera.FirstTile
         X += factorX * TILES_PER_BLOCK
         Y += factorY * TILES_PER_BLOCK
         return {
@@ -117,7 +117,7 @@
     function ShiftDown() {
 
         // scroll to keep the same tile in view.
-        let v = document.querySelector('#GameViewport')
+        let v = document.querySelector('#VisualMap')
         let savedView = v.scrollTop
 
         // move the DOM elements around.
@@ -135,7 +135,7 @@
         // Redefine the mapblock and redraw it.
         //
         let arr = game.drawer.GridOfMapBlocks.ShiftDown()
-        let newY = 2*TILES_PER_BLOCK + game.camera.FirstTile.y
+        let newY = 2*TILES_PER_BLOCK + game.camera.FirstTile.Y
         for (i of arr.keys()) {
             arr[i].RedefineAndDraw(arr[i].tx0, newY)
         }

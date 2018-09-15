@@ -15,6 +15,9 @@ var game = {
     // Magic Variables
     TILE_SIZE: 64,
     BLOCK_SIZE: 960,
+    TILES_PER_BLOCK: 15,
+    VIEWPORT_TILE_WIDTH: 45,
+    VIEWPORT_TILE_HEIGHT: 45,
 
     // Holds class definitions
     classes: {
