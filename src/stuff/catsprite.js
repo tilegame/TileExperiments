@@ -3,6 +3,17 @@
 // ------------------------------------------------
 
 {
+    const filename = `img/catsprite.png`
+    let CatImage = new Image()
+    CatImage.src = filename
+
+    function CatImageLoaded() {
+        return new Promise(function(resolve, reject) {
+            CatImage.onload = resolve
+        }
+        )
+    }
+
     // These are the animation styles, mapping to their
     // relevent {X,Y} position on the image.
     //
@@ -90,10 +101,27 @@
         y = val[1] * SPOT_SIZE
         return [x, y]
     }
-    
-    
+
+    function draw(ctx, direction, action, part) {
+        CatImageLoaded().then(_draw(ctx, direction, action, part))
+    }
+
+    function _draw(ctx, direction, action, part) {
+        ctx.clearRect(0, 0, game.TILE_SIZE, game.TILE_SIZE)
+        let[x,y] = getValues(direction, action, part)
+        ctx.drawImage(CatImage, x, y, SPOT_SIZE, SPOT_SIZE, 0, 0, game.TILE_SIZE, game.TILE_SIZE)
+    }
+
+    function sayHurray() {
+        console.log(`cat image already loaded, do draw!`)
+    }
+
+    let exports = {
+        TheCat: {
+            draw,
+        }
+    }
+
+    Object.assign(game, exports)
+
 }
-
-
-
-

@@ -103,7 +103,7 @@
     }
 
     game.player = {
-        me, 
+        me,
         playermap,
         init,
         UpdateList,
@@ -155,6 +155,9 @@
 
             // Creates the player objects and passes it the new canvas.
             let p = new Player(canvas,name)
+
+            // Draws the default cat on the player canvas.
+            game.TheCat.draw(p.ctx, 'W', 'JUMPING', 2)
 
             // Add to the player list.
             game.player.playermap.set(name, p)
