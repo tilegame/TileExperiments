@@ -118,7 +118,7 @@
 
         // scroll to keep the same tile in view.
         let v = document.querySelector('#GameViewport')
-        savedView = v.scrollTop
+        let savedView = v.scrollTop
 
         // move the DOM elements around.
         row0 = WRAP.getElementsByClassName('row')[0]
