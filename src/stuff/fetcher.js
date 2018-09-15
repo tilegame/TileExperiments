@@ -16,7 +16,7 @@ game.fetcher = {
     },
 
     // The Default map to load for FetchMap() 
-    DEFAULT: window.location.origin + "/tools/hundred.json",
+    DEFAULT: "tools/hundred.json",
 
     // TODO: return a Promise that the image will load,
     //       then do a .then(DrawMap())
