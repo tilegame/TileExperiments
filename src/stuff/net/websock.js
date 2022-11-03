@@ -87,7 +87,7 @@
         },
 
         // Canonical URL of the game websocket server.
-        DEFAULT_SERVER: new URL('wss://thebachend.com/ws/echo'),
+        DEFAULT_SERVER: new URL('wss://tilegame.thebachend.com/ws/echo'),
 
         // Creates a new WebSocketHub using the specified address.
         ConnectTo(address) {
