@@ -18,7 +18,7 @@
             this.duration = 10000
 
             // Start off the chat timebomb (which clears the chat)
-            this.timebomb()
+            // this.timebomb()
 
             // Current Position of the ChatBox
             this.CurrentPos = {
